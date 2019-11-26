@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-import Colors from '../constants/Colors';
+import сolor from '../constants/Colors';
 
 class Accordion extends React.Component {
     constructor(props) {
@@ -24,9 +24,9 @@ class Accordion extends React.Component {
             <View style={styles.container}>
                 <TouchableOpacity style={styles.row} onPress={() => this.toggleExpand()}>
                     <Text style={[styles.title, styles.font]}>{this.props.question}</Text>
-                    <Ionicons style={styles.icon} name={this.state.expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'} size={30} color='green' />
-
+                    <Ionicons style={styles.icon} name={this.state.expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'} size={30} />
                 </TouchableOpacity>
+                
                 <View style={styles.parentHr} />
                 {
                     this.state.expanded &&
@@ -42,14 +42,15 @@ class Accordion extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
+        //flex:1,
         flexDirection: 'column',
-        //paddingTop:100,
+       // marginTop:100,
     },
 
     title: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: 'green',
+        color: 'white',
     },
     row: {
         flexDirection: 'row',
@@ -57,10 +58,13 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 18,
         alignItems: 'center',
-        backgroundColor: 'yellow',
+        backgroundColor: сolor.VIOLET,
     },
     icon: {
         justifyContent: 'flex-end',
+        marginLeft: 10,
+        color: 'white'
+
     },
     parentHr: {
         height: 1,
@@ -68,10 +72,12 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     child: {
-        backgroundColor: 'gray',
+        backgroundColor: 'white',
         padding: 16,
     }
 
 });
 
 export default Accordion;
+
+// https://medium.com/@KPS250/creating-an-accordion-in-react-native-f313748b7b46

@@ -1,25 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Container, Header, Content, Button, ListItem, Text, Icon, Left, Body, Right, Switch } from 'native-base';
-
+import color from '../constants/Colors';
+import str from '../constants/Strings';
 
 
 class SettingsScreen extends React.Component {
     constructor(props) {
         super(props);
-        /* 
-                navigationOptions = ({ navigation }) => {
-                    return {
-                        headerRight: () =>
-                        <Ionicons name='md-settings'
-                            style={{ marginRight: 20}}
-                            size={26}
-                            onPress={() =>
-                                navigation.navigate('Settings')}
-                        />
-                    };
-                };*/
     }
 
     render() {
@@ -28,28 +16,15 @@ class SettingsScreen extends React.Component {
                 <ScrollView
                     style={styles.container}
                     contentContainerStyle={styles.contentContainer}>
-                    <View tyle={styles.welcomeContainer}>
-                    </View>
-                    <Text>Settings screen view</Text>
-                    <Ionicons name='md-log-out'><Text>Logout</Text></Ionicons>
-                    <Container>
-                        <Header />
-                        <Content>
-                            <ListItem icon>
-                                <Left>
-                                    <Button style={{ backgroundColor: "#FF9501" }}>
-                                        <Icon active name="airplane" />
-                                    </Button>
-                                </Left>
-                                <Body>
-                                    <Text>Airplane Mode</Text>
-                                </Body>
-                                <Right>
-                                    <Switch value={false} />
-                                </Right>
-                            </ListItem>
-                                                   </Content>
-                    </Container>
+                    <TouchableOpacity style={styles.logoutContainer} onPress={() => this.props.navigation.navigate('FAQs')}>
+                        <Ionicons style={styles.FAQIcon} name='md-information-circle-outline' size={26} />
+                        <Text style={styles.FAQText}>FAQ</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.logoutContainer} onPress={() => this.props.navigation.navigate('Login')}>
+                        <Ionicons style={styles.logoutIcon} name='md-log-out' size={26} />
+                        <Text style={styles.logoutText}>{str.LOGOUT}</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
         );
@@ -63,12 +38,31 @@ const styles = StyleSheet.create({
     contentContainer: {
         paddingTop: 30,
     },
-    welcomeContainer: {
+    logoutContainer: {
+        flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 20,
-        backgroundColor: 'blue',
+        marginBottom: 30,
     },
+
+    FAQIcon: {
+        marginRight: 20,
+        marginLeft: 20,
+        color: 'black',
+    },
+    FAQText: {
+        color: 'black',
+        fontSize: 18
+    },
+    logoutIcon: {
+        marginRight: 20,
+        marginLeft: 20,
+        color: color.ATTENTION,
+        // bottom: 30
+    },
+    logoutText: {
+        color: color.ATTENTION,
+        fontSize: 18
+    }
 })
 
 export default SettingsScreen;

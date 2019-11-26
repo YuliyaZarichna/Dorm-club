@@ -8,6 +8,8 @@ import { Ionicons } from '@expo/vector-icons';
 import AppNavigator from './navigation/AppNavigator';
 import MainNav from './navigation/MainTabNavigator'
 import LoginScreen from './screens/LogIn/LogInScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import ModalWindow from './components/Modal'
 
 import { fetchUniversities } from './api'
 import RegisterScreen from './screens/Registration/RegisterScreen';
@@ -16,7 +18,7 @@ import MainTabNavigator from './navigation/MainTabNavigator';
 
 class App extends React.Component {
   static defaultProps = {
-    fetchUniversities
+    fetchUniversities,
   }
 
   state = {
@@ -54,14 +56,15 @@ class App extends React.Component {
     return (
 
       <View style={styles.container}>
+        {/* <ModalWindow /> */}
         {/*{this.state.universities.map((university, i) => (
            <Text key={i}>{university.name}</Text>
           ))} */}
-
         {/* <StatusBar barStyle="default" /> */}
         {/* <RegisterScreen/> */}
         {/* <LoginScreen /> */}
         {/* <AppNavigator />  */}
+        {/*  <SettingsScreen /> */}
         <MainTabNavigator />
       </View>
     );
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    //marginTop: 30
+   // marginTop: 30
   },
 
 });

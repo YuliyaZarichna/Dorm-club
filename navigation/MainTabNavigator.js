@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -11,33 +12,16 @@ import MessageScreen from '../screens/MessageScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import FAQScreen from '../screens/FAQScreen';
+import AddPostScreen from '../screens/AddPostScreen';
 
 import LoginScreen from '../screens/LogIn/LogInScreen';
 import RegisterScreen from '../screens/Registration/RegisterScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity} from 'react-native';
+import { TouchableOpacity, Button } from 'react-native';
+import color from '../constants/Colors';
 
 
-
-// Home Page
-const HomeStack = createStackNavigator(
-    {
-        Home: HomeScreen,
-    },
-);
-
-HomeScreen.navigationOptions = {
-    tabBarLabel: 'Home',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-home'
-        />
-    ),
-}
-HomeStack.path = '';
 
 // Neighbor Page
 const NeighborStack = createStackNavigator(
@@ -95,6 +79,25 @@ MessageScreen.navigationOptions = {
 };
 MessageStack.path = '';
 
+// Post Page
+const PostStack = createStackNavigator(
+    {
+        AddPost: AddPostScreen,
+    }
+);
+AddPostScreen.navigationOptions = {
+    tabBarLabel: 'Inbox',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name='md-mail'
+        />
+    ),
+};
+PostStack.path = '';
+
+
+
 // Profile Page 
 /* const ProfileStack = createStackNavigator({
     Profile: {
@@ -115,7 +118,7 @@ MessageStack.path = '';
 }); */
 
 //FAQ
-FAQScreen.navigationOptions = {
+/* FAQScreen.navigationOptions = {
     tabBarLabel: 'FAQ',
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
@@ -123,9 +126,31 @@ FAQScreen.navigationOptions = {
             name='md-information-circle-outline'
         />
     ),
-};
+}; */
 
+const HomeStack = createStackNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            header: null
+        }
 
+    },
+
+    AddPost: {
+        screen: AddPostScreen,
+        navigationOptions: ({ }) => ({
+            headerTitle: 'Create Post',
+            headerRight: () => {
+                <Button
+                    onPress={console.log('post')}
+                    title="+1"
+                />
+            }
+
+        })
+    },
+})
 
 const AppStack = createStackNavigator({
 
@@ -136,7 +161,7 @@ const AppStack = createStackNavigator({
             headerRight: () =>
                 <TouchableOpacity>
                     <Ionicons name='md-settings'
-                        style={{ marginRight: 20 }}
+                        style={{ marginRight: 20, color: color.tabIconDefault }}
                         size={26}
                         onPress={() =>
                             // console.log("click")
@@ -151,6 +176,13 @@ const AppStack = createStackNavigator({
         screen: SettingsScreen,
         navigationOptions: {
             headerTitle: "Settings"
+        }
+    },
+
+    FAQs: {
+        screen: FAQScreen,
+        navigationOptions: {
+            headerTitle: "FAQ"
         }
     },
 });
@@ -179,7 +211,18 @@ const AuthStack = createStackNavigator({
 
 const TabNavigator = createBottomTabNavigator({
 
-    Home: { screen: HomeScreen },
+    Home: {
+        screen: HomeStack,
+        navigationOptions: {
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ focused }) => (
+                <TabBarIcon
+                    focused={focused}
+                    name='md-home'
+                />
+            ),
+        }
+    },
     Neighbor: { screen: NeighborScreen },
     Message: { screen: MessageScreen },
     Profile: {
@@ -194,7 +237,7 @@ const TabNavigator = createBottomTabNavigator({
             ),
         }
     },
-    FAQ: { screen: FAQScreen }
+    //  FAQ: { screen: FAQScreen }
 
 }, {
     tabBarOptions: {
@@ -210,6 +253,7 @@ const RootSwitch = createSwitchNavigator({
     Auth: {
         screen: AuthStack
     },
+    // Nav: SomeNav,
     App: AppStack,
     RootSwitch: { screen: TabNavigator },
 

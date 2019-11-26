@@ -14,5 +14,6 @@ export default {
   BLACK: "#000",
   WHITE: "#FFF",
   VIOLET: "#7C8DC4", 
-  LIGHTGRAY: "#C4C4C4"
+  LIGHTGRAY: "#C4C4C4",
+  ATTENTION: "#F59D9E"
 };
