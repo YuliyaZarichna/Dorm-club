@@ -4,6 +4,7 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { StyleSheet, Text, View, ActivityIndicator, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useScreens } from 'react-native-screens'
 
 import AppNavigator from './navigation/AppNavigator';
 import MainNav from './navigation/MainTabNavigator'
@@ -11,28 +12,34 @@ import LoginScreen from './screens/LogIn/LogInScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ModalWindow from './components/Modal'
 
-import { fetchUniversities } from './api'
 import RegisterScreen from './screens/Registration/RegisterScreen';
 import MainTabNavigator from './navigation/MainTabNavigator';
 
+useScreens(); // responsible for better performance
 
 class App extends React.Component {
-  static defaultProps = {
-    fetchUniversities,
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: false,
+    }
   }
+  /* 
+    async _loadResourcesAsync() {
+      await Promise.all([
+  
+        Font.loadAsync({
+          ...Ionicons.font,
+        }),
+      ]);
+    } */
 
-  state = {
-    loading: false,
-    universities: []
-  }
-
-  async _loadResourcesAsync() {
-    await Promise.all([
-
-      Font.loadAsync({
-        ...Ionicons.font,
-      }),
-    ]);
+  fetchFonts = () => {
+    return Font.loadAsync({
+      'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+      'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf')
+    })
   }
   /*   async componentDidMount() {
            this.setState({ loading: true });
@@ -41,10 +48,11 @@ class App extends React.Component {
     } */
 
   render() {
-    if (this.state.loading) {
+
+    if (!this.state.loading) {
       return (
         <AppLoading
-          startAsync={this._loadResourcesAsync}
+          startAsync={this.fetchFonts}
           onFinish={() => this.setState({ loading: true })}
           onError={console.warn}
         />
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-   // marginTop: 30
+    // marginTop: 30
   },
 
 });

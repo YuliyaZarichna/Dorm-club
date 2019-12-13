@@ -19,7 +19,7 @@ import RegisterScreen from '../screens/Registration/RegisterScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Button } from 'react-native';
-import color from '../constants/Colors';
+import Color from '../constants/Colors';
 
 
 
@@ -41,25 +41,6 @@ NeighborScreen.navigationOptions = {
 }
 NeighborStack.path = '';
 
-// Settings Page
-/* const SettingsStack = createStackNavigator(
-    {
-        Settings: SettingsScreen,
-    }
-);
-
-SettingsScreen.navigationOptions = {
-    tabBarLabel: 'Settings',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-settings'
-        />
-    ),
-    headerTitle: 'Settings',
-};
-
-SettingsStack.path = ''; */
 
 
 // Message Page
@@ -97,44 +78,12 @@ AddPostScreen.navigationOptions = {
 PostStack.path = '';
 
 
-
-// Profile Page 
-/* const ProfileStack = createStackNavigator({
-    Profile: {
-        screen: ProfileScreen,
-        navigationOptions: ({ navigation }) => ({
-            headerTitle: 'Profile',
-            headerRight: () =>
-                <Ionicons name='md-settings'
-                    style={{ marginRight: 20 }}
-                    size={26}
-                    onPress={() =>
-                        // console.log("click")
-                        navigation.navigate('Settings')
-                    }
-                />
-        })
-    }
-}); */
-
-//FAQ
-/* FAQScreen.navigationOptions = {
-    tabBarLabel: 'FAQ',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-information-circle-outline'
-        />
-    ),
-}; */
-
 const HomeStack = createStackNavigator({
     Home: {
         screen: HomeScreen,
         navigationOptions: {
             header: null
         }
-
     },
 
     AddPost: {
@@ -143,11 +92,9 @@ const HomeStack = createStackNavigator({
             headerTitle: 'Create Post',
             headerRight: () => {
                 <Button
-                    onPress={console.log('post')}
                     title="+1"
                 />
             }
-
         })
     },
 })
@@ -161,12 +108,9 @@ const AppStack = createStackNavigator({
             headerRight: () =>
                 <TouchableOpacity>
                     <Ionicons name='md-settings'
-                        style={{ marginRight: 20, color: color.tabIconDefault }}
+                        style={{ marginRight: 20, color: Color.tabIconDefault }}
                         size={26}
-                        onPress={() =>
-                            // console.log("click")
-                            navigation.navigate('Settings')
-                        }
+                        onPress={() => navigation.navigate('Settings')}
                     />
                 </TouchableOpacity>
         })
@@ -196,9 +140,19 @@ const AuthStack = createStackNavigator({
     },
     Register: {
         screen: RegisterScreen,
-        navigationOptions: {
-            header: null
-        }
+        navigationOptions: ({ navigation }) => ({
+           // headerTitle: 'Registration',
+            headerRight: () =>
+                <TouchableOpacity>
+                    <Ionicons name='md-done-all'
+                        style={{ marginRight: 20, color: Color.tabIconDefault }}
+                        size={26}
+                        onPress={() =>
+                            navigation.navigate('Welcome')
+                        }
+                    />
+                </TouchableOpacity>
+        })
     },
     Welcome: {
         screen: WelcomeScreen,

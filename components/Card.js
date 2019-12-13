@@ -1,87 +1,80 @@
-<script scr="http.//10.6.182.136:8097"></script>
-
 import React, { Component } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Text, Icon, Left, Body, Right } from 'native-base';
-//import ModalWindow from './Modal',
-import Modal from 'react-native-modal';
-
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
+import { Card, Divider } from 'react-native-elements'
 
 import сolor from '../constants/Colors';
 
-class PostCard extends React.Component {
+class PostCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: props.posts,
+           // data: props.posts,
             visibleModal: false, // for modal
         };
     }
 
- 
+
 
     render() {
         return (
-            <Container style={styles.containerCard}>
-                <Content style={styles.contentCard}>
-                    <Card style={styles.card}>
-                        <CardItem style={styles.cardItem}>
-                            <Ionicons style={styles.userIcon} name='md-aperture' size={26} />
-                            <Body>
-                                <Text>{this.props.user}</Text>
-                                <Text note>{this.props.date}</Text>
-                            </Body>
-                            <Right>
-                                <TouchableOpacity
-                                    // onPress = {() => {this.setState({ visibleModal: true})}}
-                                    // in parameter send props about each card to delete 
-                                    onPress={() => this.props.openModal(this.props)}
-                                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-                                    <Ionicons name='md-more' size={22} />
-                                </TouchableOpacity>
-                            </Right>
-                        </CardItem>
-                        <CardItem header>
-                            <Text style={styles.titleText}>{this.props.title}</Text>
-                        </CardItem>
+            <Card style={styles.container}>
+                <View style={styles.header}>
+                    <Ionicons style={styles.userIcon} name='md-aperture' size={26} />
+                    <Text>Tomas</Text>
+                    <View style={styles.modalButton}>
+                        <TouchableOpacity
+                            // in parameter send props about each card to delete 
+                            onPress={() => this.props.openModal(this.props.id)}
+                            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+                            <Ionicons name='md-more' size={22} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View>
+                    <Text>{this.props.date}</Text>
+                    <Text style={styles.titleText}>{this.props.title}</Text>
+                    <Text style={styles.mainText}>{this.props.text}</Text>
+                </View>
+                <View>
+                    <Divider style={styles.divider} />
+                    <TouchableOpacity style={styles.commentContainer} onPress={() => alert("Add comment later")}>
+                        <Ionicons style={styles.commentIcon} name='md-albums' style={{ color: '#ED4A6A' }} size={20} />
+                        <Text style={styles.commentText}>Comment</Text>
+                    </TouchableOpacity>
+                </View>
+            </Card>
 
-                        <CardItem bordered>
-                            <Body>
-                                <Text>{this.props.text}</Text>
-                            </Body>
-                        </CardItem>
-
-                        <CardItem bordered>
-                            <Right>
-                                <TouchableOpacity style={styles.commentContainer} onPress={() => alert("Add comment later")}>
-                                    <Ionicons style={styles.commentIcon} name='md-albums' style={{ color: '#ED4A6A' }} size={20} />
-                                    <Text style={styles.commentText}>Comment</Text>
-                                </TouchableOpacity>
-                            </Right>
-                        </CardItem>
-                    </Card>
-                </Content>
-            </Container>
         );
     }
 }
 
 
 const styles = StyleSheet.create({
-    containerCard: {
-        //flex: 1,
+    container: {
+        marginTop: 20,
+        elevation: 5
+    },
+    header: {
         flexDirection: 'row',
-        marginTop: 30,
+        alignItems: 'center',
+    },
+    modalButton: {
+        marginLeft: 200,
+        //justifyContent: 'flex-end',
+        // alignContent: 'flex-end',
+        alignSelf: 'flex-end'
     },
 
     contentCard: {
         //flexDirection: 'row',
         //flexDirection: 'column-reverse'
+        backgroundColor: 'green',
+        height: 40
     },
 
     card: {
-
+        backgroundColor: 'red'
     },
 
     userIcon: {
@@ -91,6 +84,11 @@ const styles = StyleSheet.create({
         fontSize: 20,
         paddingBottom: 0,
         paddingTop: 0
+    },
+    mainText: {
+        paddingBottom: 15
+    },
+    divider: {
     },
     commentContainer: {
         flexDirection: 'row',
@@ -103,13 +101,11 @@ const styles = StyleSheet.create({
     },
     commentIcon: {
         justifyContent: 'flex-end'
-
     },
     modalBox: {
         width: 50,
         height: 50
     }
-
 
 });
 

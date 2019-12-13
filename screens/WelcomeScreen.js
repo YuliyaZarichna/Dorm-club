@@ -8,8 +8,8 @@ class WelcomeScreen extends React.Component {
     constructor(props) {
         super(props);
     }
-    render() {
 
+    render() {
 
         return (
             <View style={styles.container} >
@@ -19,7 +19,7 @@ class WelcomeScreen extends React.Component {
                     <View tyle={styles.welcomeContainer}>
 
                     </View>
-                    <Text>HWelocme to Aristo!</Text>
+                    <Text style={styles.welcomeText}>Welocme to Aristo!</Text>
                     <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Home')}>
                         <Text style={styles.buttonText}>{str.DONE}</Text>
                     </TouchableOpacity>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.WHITE,
+        paddingTop: 20
     },
     contentContainer: {
         paddingTop: 30,
@@ -46,6 +47,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
         marginBottom: 20,
+    },
+    welcomeText: {
+        alignSelf: 'center',
+        paddingBottom: 20
     },
 
     buttonContainer: {

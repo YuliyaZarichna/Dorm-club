@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import color from '../constants/Colors';
+
 
 export default function ProfileScreen() {
 
@@ -18,7 +20,7 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'green',
+        backgroundColor: color.VIOLET,
     },
     contentContainer: {
         paddingTop: 30,

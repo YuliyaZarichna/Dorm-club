@@ -8,6 +8,12 @@ class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
+       // console.log("props", props);
+        this.state = {
+            data: props.data
+        }
+/*         console.log("this.props.data", this.props.data);
+        console.log("this.state.data", this.state.data); */
     }
 
     render() {
@@ -26,6 +32,13 @@ class LoginForm extends React.Component {
                     autoCorrect={false}
                     onSubmitEditing={() => this.passwordInput.focus()} // when enter the email
                     style={styles.input}
+                    autoCorrect
+                    errorText="Please enter a valid email address"
+                    //required
+                    //value={this.props.email}
+                    onChangeText={() => this.props.email}
+                    initialValue=''
+                    
                 />
     
                 <TextInput

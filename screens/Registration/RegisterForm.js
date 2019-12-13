@@ -103,7 +103,7 @@ class RegisterForm extends React.Component {
                     ref={(input) => this.passwordInput = input}
                     style={styles.input}
                 />
-                <TouchableOpacity style={styles.buttonContainer}  onPress={() => this.props.navigation.navigate('Welcome')}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Welcome')}>
                     <Text style={styles.buttonText}>{str.DONE}</Text>
                 </TouchableOpacity>
             </View>
@@ -114,12 +114,15 @@ class RegisterForm extends React.Component {
 const styles = StyleSheet.create({
 
     input: {
+        width: '90%',
         height: 40,
         marginBottom: 20,
         color: color.BLACK,
         paddingHorizontal: 10,
         borderBottomWidth: 1,
         borderBottomColor: color.LIGHTGRAY,
+        justifyContent: 'center',
+        alignSelf: "center",
     },
     text: {
         textAlign: 'center'

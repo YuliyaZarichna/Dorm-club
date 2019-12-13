@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView } from 'react-native';
-import color from '../../constants/Colors';
+import Color from '../../constants/Colors';
 import str from '../../constants/Strings';
 import RegisterForm from './RegisterForm'
 
@@ -37,14 +37,21 @@ class RegisterScreen extends Component {
         );
     }
 }
+RegisterScreen.navigationOptions = {
+    headerTitle: 'Set up',
+    headerStyle: {
+        backgroundColor: Color.VIOLET
+    },
+    headerTintColor: Color.WHITE
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20,
+        paddingTop: 40,
     },
-
+    
     register: {
         alignItems: 'center',
         flexGrow: 1,
