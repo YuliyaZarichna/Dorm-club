@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import Accordion from '../components/Accordion';
 import getEnvVars from '../environment';
-const {apiURL} = getEnvVars();
+const { apiURL } = getEnvVars();
+import Color from '../constants/Colors';
+
 
 
 class FAQScreen extends React.Component {
@@ -37,7 +39,6 @@ class FAQScreen extends React.Component {
     // different way of writing fetch, proposed ES2017 async/await syntax in a React Native
     componentDidMount = async () => {
         try {
-            //const res = await fetch(`${APP_URL}/faqs`);
             const res = await fetch(`${apiURL}/faqs`);
             const faqs = await res.json();
             this.setState({
@@ -60,7 +61,7 @@ class FAQScreen extends React.Component {
         });
         return (
             <>
-                {/*    <View style={styles.container}>
+                {/*<View style={styles.container}>
                     <Text style={styles.text}>FAQ</Text>
                 </View> */}
                 <ScrollView>
@@ -70,7 +71,15 @@ class FAQScreen extends React.Component {
         )
     }
 }
+FAQScreen.navigationOptions = navData => {
+    return {
+        headerStyle: {
+            backgroundColor: Platform.OS === 'android' ? Color.TEAL : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? Color.WHITE : Color.TEAL,
 
+    };
+};
 const styles = StyleSheet.create({
     container: {
         //flex: 1,

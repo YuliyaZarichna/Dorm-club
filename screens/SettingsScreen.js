@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import color from '../constants/Colors';
+import Color from '../constants/Colors';
 import str from '../constants/Strings';
 
 
@@ -31,6 +31,16 @@ class SettingsScreen extends React.Component {
     }
 }
 
+//from video
+SettingsScreen.navigationOptions = () => {
+    return {
+        headerStyle: {
+            backgroundColor: Platform.OS === 'android' ? Color.TEAL : ''
+        },
+        headerTintColor: Platform.OS === 'android' ? Color.WHITE : Color.TEAL
+    }
+}
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -56,11 +66,11 @@ const styles = StyleSheet.create({
     logoutIcon: {
         marginRight: 20,
         marginLeft: 20,
-        color: color.ATTENTION,
+        color: Color.ATTENTION,
         // bottom: 30
     },
     logoutText: {
-        color: color.ATTENTION,
+        color: Color.ATTENTION,
         fontSize: 18
     }
 })

@@ -13,69 +13,29 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import FAQScreen from '../screens/FAQScreen';
 import AddPostScreen from '../screens/AddPostScreen';
+import PostDetailsScreen from '../screens/PostDetailsScreen';
+
 
 import LoginScreen from '../screens/LogIn/LogInScreen';
+import UniversityScreen from '../screens/SignUpScreens/UniversityScreen';
+import CountryScreen from '../screens/SignUpScreens/CountryScreen';
+import NameDetailsScreen from '../screens/SignUpScreens/NameDetailsScreen';
+import VerificationScreen from '../screens/VerificationScreen'
+import EmailPasswordScreen from '../screens/SignUpScreens/EmailPasswordScreen';
+import StartupScreen from '../screens/StartupScreen'
+import VerificationByQRCode from '../components/VerificationByQRCode'
+import NeighborDetailsScreen from '../screens/NeighborDetailsScreen'
+import MessageDetailsScreen from '../screens/MessageDetailsScreen'
+
+
+
 import RegisterScreen from '../screens/Registration/RegisterScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Button } from 'react-native';
 import Color from '../constants/Colors';
+import NeightborScreen from '../screens/NeighborScreen';
 
-
-
-// Neighbor Page
-const NeighborStack = createStackNavigator(
-    {
-        Neighbor: NeighborScreen,
-    },
-);
-
-NeighborScreen.navigationOptions = {
-    tabBarLabel: 'Neighbors',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-people'
-        />
-    ),
-}
-NeighborStack.path = '';
-
-
-
-// Message Page
-const MessageStack = createStackNavigator(
-    {
-        Message: MessageScreen,
-    }
-);
-MessageScreen.navigationOptions = {
-    tabBarLabel: 'Inbox',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-mail'
-        />
-    ),
-};
-MessageStack.path = '';
-
-// Post Page
-const PostStack = createStackNavigator(
-    {
-        AddPost: AddPostScreen,
-    }
-);
-AddPostScreen.navigationOptions = {
-    tabBarLabel: 'Inbox',
-    tabBarIcon: ({ focused }) => (
-        <TabBarIcon
-            focused={focused}
-            name='md-mail'
-        />
-    ),
-};
-PostStack.path = '';
 
 
 const HomeStack = createStackNavigator({
@@ -90,44 +50,54 @@ const HomeStack = createStackNavigator({
         screen: AddPostScreen,
         navigationOptions: ({ }) => ({
             headerTitle: 'Create Post',
-            headerRight: () => {
-                <Button
-                    title="+1"
-                />
-            }
         })
     },
+    PostDetails: {
+        screen: PostDetailsScreen
+    }
 })
 
-const AppStack = createStackNavigator({
-
+const ProfileStack = createStackNavigator({
     Profile: {
         screen: ProfileScreen,
-        navigationOptions: ({ navigation }) => ({
-            headerTitle: 'My Profile',
-            headerRight: () =>
-                <TouchableOpacity>
-                    <Ionicons name='md-settings'
-                        style={{ marginRight: 20, color: Color.tabIconDefault }}
-                        size={26}
-                        onPress={() => navigation.navigate('Settings')}
-                    />
-                </TouchableOpacity>
-        })
     },
-
     Settings: {
         screen: SettingsScreen,
         navigationOptions: {
             headerTitle: "Settings"
         }
     },
-
     FAQs: {
         screen: FAQScreen,
         navigationOptions: {
             headerTitle: "FAQ"
         }
+    },
+});
+const NeighborStack = createStackNavigator({
+    Neighbor: {
+        screen: NeightborScreen,
+    },
+    NeighborDetails: {
+        screen: NeighborDetailsScreen,
+        navigationOptions: {
+            headerTitle: "I am your neighbor"
+        }
+    },
+    MessageDetails: {
+        screen: MessageDetailsScreen,
+    },
+});
+
+const MessageStack = createStackNavigator({
+    Message: {
+        screen: MessageScreen,
+        navigationOptions: {
+            headerTitle: "Inbox"
+        }
+    },
+    MessageDetails: {
+        screen: MessageDetailsScreen,
     },
 });
 
@@ -138,22 +108,47 @@ const AuthStack = createStackNavigator({
             header: null,
         }
     },
-    Register: {
-        screen: RegisterScreen,
-        navigationOptions: ({ navigation }) => ({
-           // headerTitle: 'Registration',
-            headerRight: () =>
-                <TouchableOpacity>
-                    <Ionicons name='md-done-all'
-                        style={{ marginRight: 20, color: Color.tabIconDefault }}
-                        size={26}
-                        onPress={() =>
-                            navigation.navigate('Welcome')
-                        }
-                    />
-                </TouchableOpacity>
-        })
+    /*    Register: {
+           screen: RegisterScreen,
+           navigationOptions: ({ navigation }) => ({
+              // headerTitle: 'Registration',
+               headerRight: () =>
+                   <TouchableOpacity>
+                       <Ionicons name='md-done-all'
+                           style={{ marginRight: 20, color: Color.tabIconDefault }}
+                           size={26}
+                           onPress={() =>
+                               navigation.navigate('Welcome')
+                           }
+                       />
+                   </TouchableOpacity>
+           })
+       }, */
+    University: {
+        screen: UniversityScreen,
     },
+    Country: {
+        screen: CountryScreen,
+    },
+    NameDetails: {
+        screen: NameDetailsScreen
+    },
+    EmailPassword: {
+        screen: EmailPasswordScreen
+    },
+    Verification: {
+        screen: VerificationScreen,
+        navigationOptions: {
+            headerTitle: 'Verification',
+        }
+    },
+    VerificationQR: {
+        screen: VerificationByQRCode,
+        navigationOptions: {
+            headerTitle: 'QR Verification',
+        }
+    },
+
     Welcome: {
         screen: WelcomeScreen,
         navigationOptions: {
@@ -164,11 +159,13 @@ const AuthStack = createStackNavigator({
 })
 
 const TabNavigator = createBottomTabNavigator({
-
     Home: {
         screen: HomeStack,
         navigationOptions: {
             tabBarLabel: 'Home',
+            tabBarOptions: {
+                activeTintColor: Color.TEAL,
+            },
             tabBarIcon: ({ focused }) => (
                 <TabBarIcon
                     focused={focused}
@@ -177,12 +174,43 @@ const TabNavigator = createBottomTabNavigator({
             ),
         }
     },
-    Neighbor: { screen: NeighborScreen },
-    Message: { screen: MessageScreen },
-    Profile: {
-        screen: AppStack,
+    Neighbor: {
+        screen: NeighborStack,
         navigationOptions: {
-            tabBarLabel: 'Profile',
+            tabBarLabel: 'Neighbors',
+            tabBarOptions: {
+                activeTintColor: Color.TEAL,
+            },
+            tabBarIcon: ({ focused }) => (
+                <TabBarIcon
+                    focused={focused}
+                    name='md-people'
+                />
+            ),
+        }
+    },
+    Message: {
+        screen: MessageStack,
+        navigationOptions: {
+            tabBarLabel: 'Inbox',
+            tabBarOptions: {
+                activeTintColor: Color.TEAL,
+            },
+            tabBarIcon: ({ focused }) => (
+                <TabBarIcon
+                    focused={focused}
+                    name='md-mail'
+                />
+            ),
+        }
+    },
+    Profile: {
+        screen: ProfileStack,
+        navigationOptions: {
+            tabBarLabel: '',
+            tabBarOptions: {
+                activeTintColor: Color.TEAL,
+            },
             tabBarIcon: ({ focused }) => (
                 <TabBarIcon
                     focused={focused}
@@ -191,24 +219,22 @@ const TabNavigator = createBottomTabNavigator({
             ),
         }
     },
-    //  FAQ: { screen: FAQScreen }
-
 }, {
-    tabBarOptions: {
-        headerTintColor: '#fff',
-        headerStyle: {
-            backgroundColor: '#000',
-        },
-    }
+    /*    tabBarOptions: {
+           headerTintColor: Color.TEAL,
+           headerStyle: {
+               backgroundColor: '#000',
+           },
+       } */
 }
 );
 
 const RootSwitch = createSwitchNavigator({
-    Auth: {
-        screen: AuthStack
-    },
-    // Nav: SomeNav,
-    App: AppStack,
+    //Startup: { screen: StartupScreen },
+    Auth: { screen: AuthStack },
+    AppProfile: ProfileStack,
+    AppNeighbor: NeighborStack,
+    AppMessage: MessageStack,
     RootSwitch: { screen: TabNavigator },
 
 })

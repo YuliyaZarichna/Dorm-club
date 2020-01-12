@@ -8,12 +8,9 @@ class LoginForm extends React.Component {
 
     constructor(props) {
         super(props);
-       // console.log("props", props);
         this.state = {
             data: props.data
         }
-/*         console.log("this.props.data", this.props.data);
-        console.log("this.state.data", this.state.data); */
     }
 
     render() {
@@ -32,13 +29,8 @@ class LoginForm extends React.Component {
                     autoCorrect={false}
                     onSubmitEditing={() => this.passwordInput.focus()} // when enter the email
                     style={styles.input}
-                    autoCorrect
-                    errorText="Please enter a valid email address"
-                    //required
                     //value={this.props.email}
-                    onChangeText={() => this.props.email}
-                    initialValue=''
-                    
+                    onChangeText={() => this.props.email}    
                 />
     
                 <TextInput
@@ -49,10 +41,9 @@ class LoginForm extends React.Component {
                     ref={(input) => this.passwordInput = input}
                     style={styles.input}
                 />
-    
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Home')}>
+            {/* <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('Home')}>
                     <Text style={styles.buttonText}>{str.LOGIN}</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         );
     } 

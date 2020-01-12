@@ -2,7 +2,7 @@ const strings = {
     LOGIN: "Log in",
     SIGNUP: "Sign up",
     LOGOUT: 'Logout',
-    EMAIL: "Email",
+    EMAIL: "Email address",
     USERNAME: "Username",
     PASSWORD: "Password",
     FORGOT: "Forgot password?",

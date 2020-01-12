@@ -4,18 +4,20 @@ import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { StyleSheet, Text, View, ActivityIndicator, StatusBar } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useScreens } from 'react-native-screens'
+import { enableScreens } from 'react-native-screens'
 
 import AppNavigator from './navigation/AppNavigator';
 import MainNav from './navigation/MainTabNavigator'
 import LoginScreen from './screens/LogIn/LogInScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import HomeScreen from './screens/HomeScreen';
 import ModalWindow from './components/Modal'
 
 import RegisterScreen from './screens/Registration/RegisterScreen';
 import MainTabNavigator from './navigation/MainTabNavigator';
 
-useScreens(); // responsible for better performance
+
+enableScreens(); // responsible for better performance
 
 class App extends React.Component {
 
@@ -23,17 +25,18 @@ class App extends React.Component {
     super(props);
     this.state = {
       loading: false,
+
     }
   }
-  /* 
-    async _loadResourcesAsync() {
-      await Promise.all([
-  
-        Font.loadAsync({
-          ...Ionicons.font,
-        }),
-      ]);
-    } */
+
+  /*    async loadResourcesAsync() {
+       await Promise.all([
+   
+         Font.loadAsync({
+           ...Ionicons.font,
+         }),
+       ]);
+     }  */
 
   fetchFonts = () => {
     return Font.loadAsync({
@@ -46,6 +49,16 @@ class App extends React.Component {
           const data = await this.props.fetchUniversities();
           this.setState({ loading: false, universities: data})  
     } */
+
+  async cacheResourcesAsync() {
+    /*  const images = [require('./assets/snack-icon.png')];
+ 
+     const cacheImages = images.map(image => {
+       return Asset.fromModule(image).downloadAsync();
+     });
+     return Promise.all(cacheImages);
+    } */
+  }
 
   render() {
 
@@ -74,6 +87,7 @@ class App extends React.Component {
         {/* <AppNavigator />  */}
         {/*  <SettingsScreen /> */}
         <MainTabNavigator />
+        {/* <HomeScreen /> */}
       </View>
     );
   }

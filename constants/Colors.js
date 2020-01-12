@@ -13,7 +13,13 @@ export default {
   noticeText: '#fff',
   BLACK: "#000",
   WHITE: "#FFF",
-  VIOLET: "#7C8DC4", 
+  VIOLET: "#7C8DC4",
   LIGHTGRAY: "#C4C4C4",
-  ATTENTION: "#F59D9E"
+  ATTENTION: "#F59D9E",
+  PASTELRED: "#FF6B6B",
+  EUCALYPTUS: "#40C9A2",
+  TEAL: "#007F76",
+  TROPICALRAINFOREST: "#005F63",
+  ISABELLINE: "#E9F5ED"
+
 };

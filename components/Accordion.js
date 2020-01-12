@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ColorPropType } from 'react-native';
 
-import сolor from '../constants/Colors';
+import Color from '../constants/Colors';
 
 class Accordion extends React.Component {
     constructor(props) {
@@ -24,9 +24,9 @@ class Accordion extends React.Component {
             <View style={styles.container}>
                 <TouchableOpacity style={styles.row} onPress={() => this.toggleExpand()}>
                     <Text style={[styles.title, styles.font]}>{this.props.question}</Text>
-                    <Ionicons style={styles.icon} name={this.state.expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'} size={30} />
+                    <Ionicons style={styles.icon} name={this.state.expanded ? 'md-arrow-dropdown' : 'md-arrow-dropup'} size={19} />
                 </TouchableOpacity>
-                
+
                 <View style={styles.parentHr} />
                 {
                     this.state.expanded &&
@@ -44,13 +44,13 @@ const styles = StyleSheet.create({
     container: {
         //flex:1,
         flexDirection: 'column',
-       // marginTop:100,
+        // marginTop:100,
     },
 
     title: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: 'white',
+        color: Color.TROPICALRAINFOREST
     },
     row: {
         flexDirection: 'row',
@@ -58,12 +58,12 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 18,
         alignItems: 'center',
-        backgroundColor: сolor.VIOLET,
+        // backgroundColor: сolor.VIOLET,
     },
     icon: {
         justifyContent: 'flex-end',
         marginLeft: 10,
-        color: 'white'
+        color: Color.EUCALYPTUS
 
     },
     parentHr: {

@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Button, Text, TouchableOpacity, RefreshControl, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, FlatList, Text, TouchableOpacity, RefreshControl, ActivityIndicator, ColorPropType } from 'react-native';
 import PostCard from '../components/Card';
 import Modal from 'react-native-modal';
 import getEnvVars from '../environment';
 const { apiURL } = getEnvVars();
+import * as SecureStore from 'expo-secure-store';
+import { SearchBar } from 'react-native-elements';
+import Color from '../constants/Colors';
+
+
 
 
 class HomeScreen extends Component {
@@ -14,13 +19,14 @@ class HomeScreen extends Component {
             refreshing: true,
             isModalVisible: false,
             isLoading: false,
-            page: 1,
+            isError: false,
             posts: [],
-            currentEditPostcardId: null
+            currentEditPostcardId: null, 
+            search: '',
         }
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this._isMounted = false;
         //this.getAllPosts();
     }
@@ -28,14 +34,22 @@ class HomeScreen extends Component {
     // get all posts from DB 
     getAllPosts = async () => {
         try {
-            const { page } = this.state;
+            var token = await SecureStore.getItemAsync('secure_token');
             this._isMounted = true;
-            this.isLoading = true;
-            const res = await fetch(`${apiURL}/posts`);
+            this.setState({
+                isLoading: true,
+            });
+            
+            const res = await fetch(`${apiURL}/posts`, {
+                method: 'GET',
+                headers: {
+                  'access-token': token,
+                  'Content-Type': 'application/json',
+                },
+            });
             const resJson = await res.json();
             if (this._isMounted) {
                 this.setState({
-                    posts: page === 1 ? resJson.results : [...this.state.posts, ...res.results],
                     refreshing: false,
                     isLoading: false,
                     posts: resJson
@@ -43,16 +57,20 @@ class HomeScreen extends Component {
             }
         }
         catch (error) {
-            console.error(error);
+            this.setState({
+             isError: true
+            });
+           // console.error(error);
         }
     }
 
     //delete by id 
     deletePostById = async (id) => {
-
         try {
             this._isMounted = true;
-            //add loading true
+         
+            this.isLoading= true,
+           
             await fetch(`${apiURL}/post/` + id, {
                 method: 'DELETE',
             })
@@ -68,17 +86,13 @@ class HomeScreen extends Component {
             this.setState({ loading: false, err: true })
         }
     }
-    deleteCardFromPostArray = () => {
-
-    }
 
     componentDidMount() {
         this.getAllPosts();
     }
 
     componentWillUnmount() {
-        this.setState({ isModalVisible: false })
-
+     //   this.setState({ isModalVisible: false })
     }
 
     onRefresh() {
@@ -107,11 +121,14 @@ class HomeScreen extends Component {
     };
 
     addNewPostToArray = (newPost) => {
-        console.log(newPost)
+   
+        console.log("addNewPostToArray item", newPost)
+        
         this.setState({
-            posts: [newPost, ...this.state.posts]
+            //isLoading: true,
+            posts: [newPost, ...this.state.posts],
         })
-        console.log(this.state.posts)
+        console.log("addNewPostToArray state", this.state.posts)
     }
 
     onPress = () => {
@@ -129,12 +146,48 @@ class HomeScreen extends Component {
         this.toggleModal();
     }
 
-    render() {
-        if (this.state.isLoading) {
+    updateSearch = search => {
+        this.setState({ search });
+      };
 
+    render() {
+
+        console.log("render");
+
+        if(this.state.isError) {
+            return(
+                <View style={styles.centered} >
+                    <Text>An error occured</Text>
+                </View>
+            )}
+
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.centered} >
+                    <ActivityIndicator animating={true} size="large"/>
+                    <Text>Loading</Text>
+                </View>
+            )}
+
+        if(!this.state.isLoading  && this.state.posts === 0){
+            return (
+                <View style={styles.centered} >
+                    <Text>No data found</Text>
+                </View>
+            )
         }
         return (
             <>
+             {/*   <SearchBar
+                placeholder="Type Here..."
+                onChangeText={this.updateSearch}
+                value={this.state.search}
+                containerStyle={{backgroundColor: 'transparent', paddingTop: 25}}
+                inputContainerStyle={{backgroundColor:'grey '}}
+                inputStyle={{backgroundColor:'white', borderColor:'grey',  borderWidth: 0.5}}
+                searchIcon={{color:'white'}}
+                clearIcon={{color:'white'}}             
+                /> */}
                 <Modal isVisible={this.state.isModalVisible}
                     backdropOpacity={.50}
                     backdropTransitionOutTiming={700}
@@ -146,16 +199,16 @@ class HomeScreen extends Component {
 
                 <FlatList
                     data={this.state.posts}
-                    keyExtractor={(item, index) => (String(item.id))}
+                    keyExtractor={(item) => (String(item.id))}
                     renderItem={({ item }) => (
                         <PostCard
                             date={item.createdAt}
                             text={item.text}
-                            user={item.user}
+                            user={item.User.username}
                             title={item.title}
                             openModal={this.toggleModal}
-                            passId={this.renderModalContent}
                             id={item.id}
+                            navigation={this.props.navigation}
                         />
                     )}
 
@@ -167,9 +220,8 @@ class HomeScreen extends Component {
                     }
                 />
                 <View>
-                    {/*                     <TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('AddPost', { onNavigateBack: this.getAllPosts})}>
- */}
-                    <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}>
+                    {/*<TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.navigation.navigate('AddPost', { onNavigateBack: this.getAllPosts})}>*/}
+                    <TouchableOpacity style={styles.button} onPress={this.onPress}>
                         <Text style={styles.buttonTextStyle}>+</Text>
                     </TouchableOpacity>
                 </View>
@@ -178,23 +230,28 @@ class HomeScreen extends Component {
     }
 }
 
+HomeScreen.navigationOptions = {
+    
+}
+
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
-
         marginTop: 10,
     },
-    card: {
-        backgroundColor: "green"
-
-    },
-    cardItem: {
-    },
-    main: {
+    
+    search: {
+        backgroundColor: 'green'
     },
 
-    buttonStyle: {
-        backgroundColor: '#fc454e',
+    centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    button: {
+        backgroundColor: Color.PASTELRED,
         width: 60,
         height: 60,
         borderRadius: 33,
@@ -230,7 +287,8 @@ export default HomeScreen;
 //https://snack.expo.io/@dpesmdr/refreshcontrol-example
 
 
-
+// is Mounted
+//https://github.com/material-components/material-components-web-react/issues/434
 
     /* posts: [
                 {
