@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, ActivityIndicator, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Color from '../constants/Colors';
 import str from '../constants/Strings';
 import * as SecureStore from 'expo-secure-store';
+import { Keyboard } from 'react-native'
+
 
 import getEnvVars from '../environment';
 const { apiURL } = getEnvVars();
 
 class AddPostScreen extends Component {
-    _isMounted = false;
+    //_isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -19,14 +21,15 @@ class AddPostScreen extends Component {
         };
     }
 
-    UNSAFE_componentWillMount() {
-        this._isMounted = false;
-    }
+    /*   UNSAFE_componentWillMount() {
+          this._isMounted = false;
+      } */
 
     createPost = async () => {
+        Keyboard.dismiss()
         try {
             const userId = await SecureStore.getItemAsync('user_id')
-            this._isMounted = true;
+            //this._isMounted = true;
             this.setState({
                 isLoading: true,
             });
@@ -76,11 +79,11 @@ class AddPostScreen extends Component {
         //this.props.navigation.state.params.addNewPostToArray(this.state.newPost);
     }
 
-    submitCreatePost = async () => {
-        console.log("combinedFunctionOnSubmit");
-        const userId = await SecureStore.getItemAsync('user_id')
-        this.createPost();
-    }
+    /*  submitCreatePost = async () => {
+         console.log("combinedFunctionOnSubmit");
+         const userId = await SecureStore.getItemAsync('user_id')
+         this.createPost();
+     } */
 
 
     render() {
@@ -92,36 +95,43 @@ class AddPostScreen extends Component {
             )
         }
         return (
-            <View style={styles.container}>
-                <TextInput
-                    placeholder={str.POST_TITLE}
-                    placeholderTextColor="lightgrey"
-                    value={this.state.title}
-                    onChangeText={(title) => this.setState({ title })}
-                    style={styles.input}
-                    autoCorrect
-                    returnKeyType="next"
-                    multiline={true}
-                />
-                <TextInput
-                    placeholder={str.POST_DETAILS}
-                    placeholderTextColor="lightgrey"
-                    value={this.state.text}
-                    onChangeText={(text) => this.setState({ text })}
-                    style={styles.input}
-                    autoCorrect
-                    multiline={true}
-                    spellCheck={true}
-                />
+            <KeyboardAvoidingView
+                //behavior='position'
+                style={styles.container}
+                keyboardVerticalOffset={10}
+            >
+                <View style={styles.containerView}>
+                    <TextInput
+                        placeholder={str.POST_TITLE}
+                        placeholderTextColor="lightgrey"
+                        value={this.state.title}
+                        onChangeText={(title) => this.setState({ title })}
+                        style={styles.input}
+                        autoCorrect
+                        returnKeyType="next"
+                        multiline={true}
+                    />
+                    <TextInput
+                        placeholder={str.POST_DETAILS}
+                        placeholderTextColor="lightgrey"
+                        value={this.state.text}
+                        onChangeText={(text) => this.setState({ text })}
+                        style={styles.input}
+                        autoCorrect
+                        multiline={true}
+                        spellCheck={true}
+                    />
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => this.createPost()}
-                    disabled={!this.state.text || !this.state.title}
-                >
-                    <Text style={styles.buttonText}> Submit </Text>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => this.createPost()}
+                        disabled={!this.state.text || !this.state.title}
+                    >
+                        <Text style={styles.buttonText}> Submit </Text>
+                    </TouchableOpacity>
+                </View>
+            </KeyboardAvoidingView>
+
         )
     }
 }
@@ -138,6 +148,10 @@ AddPostScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        //padding: 20,
+    },
+    containerView: {
+        //flex: 1,
         marginTop: 20
     },
     centered: {

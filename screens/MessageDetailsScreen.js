@@ -52,7 +52,6 @@ class MessageDetailsScreen extends React.Component {
             const resJson = await response.json();
 
             if (response.ok) {
-                console.log("response msg", resJson)
                 this.setState(previousState => ({
                     messages: GiftedChat.append(previousState.messages, messages),
                 }))
@@ -80,28 +79,6 @@ class MessageDetailsScreen extends React.Component {
                         _id: 1,
                     }}
                 />
-                {/* <View style={styles.container}>
-                           <Text style={styles.header}>Hey there!</Text>
-                       </View>
-                       <View style={styles.addCommentContainer}>
-                           <TextInput
-                               style={styles.addComment}
-                               placeholder='Add comment'
-                               multiline={true}
-                               onChangeText={(text) => { this.setState({ commentText: text }) }}
-                               value={this.state.commentText}
-                               spellCheck={true}
-                           />
-                           <TouchableOpacity onPress={() => { }}>
-                               <Ionicons
-                                   style={styles.sendIcon}
-                                   size={28}
-                                   name={Platform.OS === 'android' ? 'md-send' : 'ios-send'}
-                                   disabled={!this.state.commentText}
-                               />
-                           </TouchableOpacity>
-                       </View> */}
-
             </KeyboardAvoidingView>
         );
     }

@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="62c553bc-5ff9-48af-8626-37e2580cc5fe" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/Accordion.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/Accordion.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/TabBarIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/TabBarIcon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/Colors.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/Colors.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants/Strings.js" beforeDir="false" afterPath="$PROJECT_DIR$/constants/Strings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/MainTabNavigator.js" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/MainTabNavigator.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/FAQScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/FAQScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/HomeScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/SettingsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/SettingsScreen.js" afterDir="false" />
-    </list>
+    <list default="true" id="62c553bc-5ff9-48af-8626-37e2580cc5fe" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,17 +25,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1991" />
-    <option name="y" value="-414" />
-    <option name="width" value="1021" />
-    <option name="height" value="915" />
+    <option name="x" value="240" />
+    <option name="y" value="127" />
+    <option name="width" value="1440" />
+    <option name="height" value="765" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -60,9 +47,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
@@ -89,24 +78,32 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1574607693135</updated>
+      <workItem from="1579029403682" duration="11000" />
     </task>
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="11000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="1991" y="-414" width="1021" height="915" extended-state="0" />
+    <frame x="160" y="85" width="960" height="510" extended-state="0" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21566632" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22062084" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
       <window_info id="Resources Explorer" order="5" weight="0.32978722" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" visible="true" weight="0.32992327" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" visible="true" weight="0.3298153" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Assistant" order="2" visible="true" weight="0.33583334" />

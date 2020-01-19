@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
 import Color from '../../constants/Colors';
 import str from '../../constants/Strings';
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo2.png";
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../../components/HeaderButton'
 import getEnvVars from '../../environment';
@@ -79,12 +79,15 @@ class CountryScreen extends Component {
     }
 
     render() {
-        const country = this.state.countries.map((c, i) => {
-            return <Picker.Item key={i} value={c.id} label={c.name} />
-        });
-        const building = this.state.buildings.map((bld, i) => {
-            return <Picker.Item key={i} value={bld.id} label={bld.buildingNr.toString()} />
-        })
+        let mappedCountry = this.state.countries.map(c => ({
+            label: c.name,
+            value: c.id
+        }));
+
+        let mappedBuilding = this.state.buildings.map(b => ({
+            label: b.buildingNr.toString(),
+            value: b.id
+        }));
         return (
             <ScrollView>
                 <KeyboardAvoidingView
@@ -101,24 +104,24 @@ class CountryScreen extends Component {
                         <Text style={styles.text}>Choose your country from the list</Text>
 
                         <View style={styles.input}>
-                            <Picker
-                                selectedValue={this.state.selectedCountry}
+                            <RNPickerSelect
                                 onValueChange={this.handlePickerItemCountry}
-                            >
-                                <Picker.Item key={'unselectable'} label={'Country'} value={0} color="lightgrey" enable={false} />
-                                {country}
-                            </Picker>
+                                items={mappedCountry}
+                                placeholder={{ label: 'Select country' }}
+                                style={pickerSelectStyles}
+                                value={this.state.selectedCountry}
+                            />
                         </View>
                         <Text style={styles.text}>Choose the buiding where you live</Text>
 
                         <View style={styles.input}>
-                            <Picker
-                                selectedValue={this.state.selectedBulding}
+                            <RNPickerSelect
                                 onValueChange={this.handlePickerItemBuilding}
-                            >
-                                <Picker.Item key={'unselectable'} label={'Building'} value={0} color="lightgrey" enable={false} />
-                                {building}
-                            </Picker>
+                                items={mappedBuilding}
+                                placeholder={{ label: 'Select building' }}
+                                style={pickerSelectStyles}
+                                value={this.state.selectedBulding}
+                            />
                         </View>
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
@@ -131,28 +134,11 @@ class CountryScreen extends Component {
         );
     }
 }
-/* CountryScreen.navigationOptions = {
+CountryScreen.navigationOptions = {
     headerStyle: {
-        elevation: 0,    
+        elevation: 0,
     },
-}  */
-CountryScreen.navigationOptions = navData => {
-    return {
-        headerStyle: {
-            elevation: 0,
-        },
-        headerRight: (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                <Item
-                    title='Skip'
-                    onPress={() => {
-                        navData.navigation.navigate('NameDetails');
-                    }}
-                />
-            </HeaderButtons>
-        )
-    };
-};
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -173,7 +159,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingTop: 5,
         paddingBottom: 5,
-        color: 'green'
+        color: Color.TROPICALRAINFOREST
     },
 
     input: {
@@ -199,7 +185,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 4,
         borderColor: "rgba(255,255,255,0.7)",
-        backgroundColor: Color.VIOLET
+        backgroundColor: Color.TROPICALRAINFOREST
     },
 
     buttonText: {
@@ -209,23 +195,23 @@ const styles = StyleSheet.create({
     },
 })
 
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        color: 'black',
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        color: 'black',
+    },
+});
+
+
 export default CountryScreen;
 
-
-/*          countries: [{
-              name: "Afghanistan"
-          }, {
-              name: "Albania",
-          }, {
-              name: "Algeria"
-          }, {
-              name: "Andorra"
-          }, {
-              name: "Angola"
-          }, {
-              name: "Argentina"
-          }, {
-              name: "Armenia"
-          }, {
-              name: "Ukraine"
-          }], */
+// for changing picker color
+// https://github.com/lawnstarter/react-native-picker-select/blob/master/demo/App.js

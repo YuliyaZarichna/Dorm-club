@@ -32,7 +32,6 @@ class UniversityScreen extends Component {
             this.setState({
                 universities
             })
-            // console.log("universities", universities);
         }
         catch (error) {
             console.error(error);
@@ -55,25 +54,12 @@ class UniversityScreen extends Component {
         }
     }
 
-    dateList = () => {
-        let dataList = this.state.universities.map(x => ({
-            label: x.name,
-            value: x.id
-        }));
-        return dataList;
-    }
-
     render() {
-        //console.log("selectedUniversity", this.state.selectedUniversity);
-        // const university = this.state.universities.map((uni, i) => {
-        //     return <Picker.Item key={i} value={uni.id} label={uni.name} />
-        // })
-        // console.log("university", university);
-
-        let mappedUniversity = this.state.universities.map(x => ({
-            label: x.name,
-            value: x.id
+        const mappedUniversity = this.state.universities.map(u => ({
+            label: u.name,
+            value: u.id,
         }));
+
         return (
             <ScrollView keyboardShouldPersistTaps={'handled'}>
                 <KeyboardAvoidingView
@@ -88,29 +74,17 @@ class UniversityScreen extends Component {
                         />
                         {/* <Text style={styles.title}>Welcome to Aristoteles Student Dormitory</Text> */}
 
-
                         <Text style={styles.text}>Choose your university from the list</Text>
 
                         <View style={styles.input}>
                             <RNPickerSelect
                                 onValueChange={this.handlePickerItem}
-                                //onDonePress={this.handlePickerItem}
-
                                 items={mappedUniversity}
+                                placeholder={{ label: 'Select university' }}
+                                style={pickerSelectStyles}
+                                value={this.state.selectedUniversity}
                             />
-
                         </View>
-                        {/* <View style={styles.input}>
-                            <Picker
-                                // style={{ height: 100, width: '100%' }}
-                                iosHeader="Select one"
-                                selectedValue={this.state.selectedUniversity}
-                                onValueChange={this.handlePickerItem}
-                            >
-                                <Picker.Item key={'unselectable'} label={'University'} value={0} color="lightgrey" enable={false} />
-                                {university}
-                            </Picker>
-                        </View> */}
 
                         <Text style={styles.text}>Enter the specialisation you study</Text>
 
@@ -120,7 +94,7 @@ class UniversityScreen extends Component {
                                 onChangeText={(specialisation) => this.setState({ setSpecialisation: specialisation })}
                                 value={this.state.setSpecialisation}
                                 underlineColorAndroid='transparent'
-                                placeholder="university specialisation "
+                                placeholder="enter university specialisation "
                                 spellCheck={true}
                                 autoCorrect={false}
                             >
@@ -138,23 +112,11 @@ class UniversityScreen extends Component {
     }
 }
 
-UniversityScreen.navigationOptions = navData => {
-    return {
-        headerStyle: {
-            elevation: 0,
-        },
-        headerRight: (
-            <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                <Item
-                    title='Skip'
-                    onPress={() => {
-                        navData.navigation.navigate('Country');
-                    }}
-                />
-            </HeaderButtons>
-        )
-    };
-};
+UniversityScreen.navigationOptions = {
+    headerStyle: {
+        elevation: 0,
+    },
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -226,26 +188,22 @@ const styles = StyleSheet.create({
     },
 })
 
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        color: 'black',
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        color: 'black',
+    },
+});
+
 export default UniversityScreen;
 
 // not to select the first value in item picker
 // https://stackoverflow.com/questions/42169272/how-to-provide-picker-a-default-please-select-option
-
-
-/*        universities: [{
-           name: "akkon Hochschule"
-       }, {
-           name: "Alice Salomon Hochschule Berlin",
-       }, {
-           name: "Bard College Berlin"
-       }, {
-           name: "bbw Hochschule"
-       }, {
-           name: "Beuth Hochschule für Technik Berlin"
-       }, {
-           name: "BSP Business School Berlin"
-       }, {
-           name: "Charité - Universitätsmedizin Berlin"
-       }, {
-           name: "DEKRA Hochschule Berlin"
-       }], */

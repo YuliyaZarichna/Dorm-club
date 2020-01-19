@@ -38,7 +38,7 @@ class NeighborDetailsScreen extends React.Component {
                         />
                         <Text style={styles.country}>I am from {country} </Text>
                         <Text style={styles.country}>I study in {university} </Text>
-                        <Text style={styles.country}>I live in {building} building</Text>
+                        <Text style={styles.country}>I live in building {building}</Text>
                     </View>
                     <TouchableOpacity style={styles.button} onPress={() => this.contactUser()}>
                         <Text style={styles.buttonText}>Contact</Text>

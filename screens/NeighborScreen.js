@@ -117,7 +117,6 @@ class NeightborScreen extends Component {
             });
 
             const responseJson = await response.json();
-            console.log("response for search users", responseJson);
 
             if (response.ok) {
                 this.setState({
@@ -141,7 +140,6 @@ class NeightborScreen extends Component {
         }
     }
     navigateToUser = (item) => {
-        console.log("item", item);
         this.props.navigation.navigate({
             routeName: 'NeighborDetails',
             params: {
@@ -162,55 +160,51 @@ class NeightborScreen extends Component {
 
 
     render() {
-        const country = this.state.countries.map((c, i) => {
-            return <Picker.Item key={i} value={c.id} label={c.name} />
-        });
-        const building = this.state.buildings.map((bld, i) => {
-            return <Picker.Item key={i} value={bld.id} label={bld.buildingNr.toString()} />
-        })
-        const university = this.state.universities.map((uni, i) => {
-            return <Picker.Item key={i} value={uni.id} label={uni.name} />
-        })
+        const mappedCountry = this.state.countries.map(c => ({
+            label: c.name,
+            value: c.id
+        }));
+        const mappedBuilding = this.state.buildings.map(b => ({
+            label: b.buildingNr.toString(),
+            value: b.id
+        }));
+        const mappedUniversity = this.state.universities.map(u => ({
+            label: u.name,
+            value: u.id
+        }));
 
 
         return (
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.icon}>
-                        <TouchableOpacity onPress={() => this.clearPickerItems()}>
-                            <Text>Clear</Text>
-                            {/* <Ionicons name={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'} size={28} color='grey' /> */}
-                        </TouchableOpacity>
-                    </View>
-                </View>
                 <View style={styles.input}>
-                    <Picker
-                        selectedValue={this.state.selectedCountry}
+                    <RNPickerSelect
                         onValueChange={this.handlePickerItemCountry}
-                    >
-                        <Picker.Item key={'unselectable'} label={'Country'} value={0} color="lightgrey" enable={false} />
-                        {country}
-                    </Picker>
+                        items={mappedCountry}
+                        placeholder={{ label: 'Select country' }}
+                        style={pickerSelectStyles}
+                        value={this.state.selectedCountry}
+                    />
                 </View>
 
                 <View style={styles.input}>
-                    <Picker
-                        selectedValue={this.state.selectedBulding}
+                    <RNPickerSelect
                         onValueChange={this.handlePickerItemBuilding}
-                    >
-                        <Picker.Item key={'unselectable'} label={'Building'} value={0} color="lightgrey" enable={false} />
-                        {building}
-                    </Picker>
+                        items={mappedBuilding}
+                        placeholder={{ label: 'Select building' }}
+                        style={pickerSelectStyles}
+                        value={this.state.selectedBulding}
+                    />
                 </View>
 
                 <View style={styles.input}>
-                    <Picker
-                        selectedValue={this.state.selectedUniversity}
+                    <RNPickerSelect
                         onValueChange={this.handlePickerItemUniversity}
-                    >
-                        <Picker.Item key={'unselectable'} label={'University'} value={0} color="lightgrey" enable={false} />
-                        {university}
-                    </Picker>
+                        items={mappedUniversity}
+                        placeholder={{ label: 'Select university' }}
+                        style={pickerSelectStyles}
+                        value={this.state.selectedUniversity}
+                    />
+
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={this.searchUsers}>
@@ -244,7 +238,7 @@ class NeightborScreen extends Component {
     }
 }
 
-NeightborScreen.navigationOptions = navigation => {
+NeightborScreen.navigationOptions = navData => {
     return {
         headerTitle: 'Find your neighbor',
         headerStyle: {
@@ -256,8 +250,8 @@ NeightborScreen.navigationOptions = navigation => {
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                     title='clear'
-                //iconName={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
-                //onPress={() => { this.props.navigation.state.params.clearPickerItems }}
+                    //iconName={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
+                    onPress={() => { navData.navigation.state.params.clearPickerItems() }}
                 />
             </HeaderButtons>
         )
@@ -267,27 +261,12 @@ NeightborScreen.navigationOptions = navigation => {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         paddingTop: 5,
     },
     centered: {
-        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 70
-    },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-
-    headerTitle: {
-        fontSize: 20,
-    },
-
-    icon: {
-        left: 100
     },
 
     input: {
@@ -316,5 +295,20 @@ const styles = StyleSheet.create({
         color: Color.WHITE
     },
 })
+
+const pickerSelectStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        color: 'black',
+    },
+    inputAndroid: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        color: 'black',
+    },
+});
 
 export default NeightborScreen

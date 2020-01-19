@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
 import Color from '../../constants/Colors';
 import str from '../../constants/Strings';
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/logo2.png";
 
 
 class NameDetailsScreen extends Component {
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingTop: 5,
         paddingBottom: 5,
-        color: "green",
+        color: Color.TROPICALRAINFOREST,
     },
 
     input: {
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 4,
         borderColor: "rgba(255,255,255,0.7)",
-        backgroundColor: Color.VIOLET,
+        backgroundColor: Color.TROPICALRAINFOREST,
     },
 
     buttonText: {

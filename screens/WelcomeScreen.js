@@ -30,8 +30,6 @@ class WelcomeScreen extends React.Component {
     }
 
 
-
-
     render() {
         const username = this.props.navigation.getParam('username')
         return (
@@ -41,12 +39,12 @@ class WelcomeScreen extends React.Component {
                     contentContainerStyle={styles.contentContainer}>
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.helloText}>Hello {username}</Text>
-                        <Text style={styles.welcomeText}>Welocme to Aristo DC</Text>
+                        <Text style={styles.welcomeText}>Welcome to Aristo DC</Text>
                         <Text style={styles.enjoyText}>Enjoy your stay in student dormitory</Text>
                         <Text style={styles.infoAristo}>There are around 800 people living in Aristotelessteig</Text>
-                        <Text style={styles.info}>"amount" students study in "university"</Text>
+                        {/* <Text style={styles.info}>"amount" students study in "university"</Text>
                         <Text style={styles.info}>"amount" students study "subject"</Text>
-                        <Text style={styles.info}>"amount" students are from "country"</Text>
+                        <Text style={styles.info}>"amount" students are from "country"</Text> */}
                         <TouchableOpacity style={styles.button} onPress={() => { this.props.navigation.navigate('Home') }}>
                             <Text style={styles.buttonText}>{Str.DONE}</Text>
                         </TouchableOpacity>
@@ -78,13 +76,13 @@ const styles = StyleSheet.create({
     },
     helloText: {
         fontSize: 30,
-        color: Color.VIOLET
+        color: Color.PASTELRED
 
     },
     welcomeText: {
         paddingBottom: 20,
         fontSize: 25,
-        color: Color.VIOLET
+        color: Color.PASTELRED
     },
     enjoyText: {
         paddingBottom: 20,
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     info: {
         paddingBottom: 20,
         fontSize: 18,
-        color: 'green'
+        color: Color.TEAL
     },
 
     button: {
@@ -110,7 +108,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 4,
         borderColor: "rgba(255,255,255,0.7)",
-        backgroundColor: Color.VIOLET,
+        backgroundColor: Color.TROPICALRAINFOREST,
     },
 
     buttonText: {
