@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
 import Color from '../../constants/Colors';
-import str from '../../constants/Strings';
+import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
-import { Platform } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import HeaderButton from '../../components/HeaderButton'
 import RNPickerSelect from 'react-native-picker-select';
-
-import getEnvVars from '../../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../../environment';
+const { apiURL } = getEnvVar();
 
 
 class UniversityScreen extends Component {
@@ -18,7 +14,7 @@ class UniversityScreen extends Component {
         this.state = {
             universities: [],
             selectedUniversity: '',
-            setSpecialisation: ''
+            setSpecialization: ''
         }
     }
     componentDidMount() {
@@ -37,13 +33,15 @@ class UniversityScreen extends Component {
             console.error(error);
         }
     }
-
+    /** Handle navigation to the next screen. 
+        * Set chosen info (country, building) in nav parameter to be able to bring it to the next screen.
+        * Transition university and specialization to the next screen*/
     handleNavigation = () => {
         this.props.navigation.navigate({
             routeName: 'Country',
             params: {
                 university: this.state.selectedUniversity,
-                subject: this.state.setSubject
+                specialization: this.state.setSpecialization
             }
         })
     }
@@ -60,6 +58,7 @@ class UniversityScreen extends Component {
             value: u.id,
         }));
 
+
         return (
             <ScrollView keyboardShouldPersistTaps={'handled'}>
                 <KeyboardAvoidingView
@@ -68,13 +67,8 @@ class UniversityScreen extends Component {
                     keyboardVerticalOffset={100}
                 >
                     <View>
-                        <Image
-                            style={styles.logo}
-                            source={logo}
-                        />
-                        {/* <Text style={styles.title}>Welcome to Aristoteles Student Dormitory</Text> */}
-
-                        <Text style={styles.text}>Choose your university from the list</Text>
+                        <Image style={styles.logo} source={logo} />
+                        <Text style={styles.text}>{Str.CHOOSEUNI}</Text>
 
                         <View style={styles.input}>
                             <RNPickerSelect
@@ -86,13 +80,13 @@ class UniversityScreen extends Component {
                             />
                         </View>
 
-                        <Text style={styles.text}>Enter the specialisation you study</Text>
+                        <Text style={styles.text}>{Str.CHOOSESPEC}</Text>
 
                         <View style={styles.textInput}>
                             <TextInput
                                 style={{ paddingBottom: 0 }}
-                                onChangeText={(specialisation) => this.setState({ setSpecialisation: specialisation })}
-                                value={this.state.setSpecialisation}
+                                onChangeText={(specialisation) => this.setState({ setSpecialization: specialisation })}
+                                value={this.state.setSpecialization}
                                 underlineColorAndroid='transparent'
                                 placeholder="enter university specialisation "
                                 spellCheck={true}

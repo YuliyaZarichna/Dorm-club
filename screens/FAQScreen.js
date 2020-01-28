@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import Accordion from '../components/Accordion';
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 import Color from '../constants/Colors';
 
 

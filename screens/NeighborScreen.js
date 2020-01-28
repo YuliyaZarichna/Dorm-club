@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, Picker, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 import Color from '../constants/Colors';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';

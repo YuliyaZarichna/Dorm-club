@@ -5,8 +5,8 @@ import Color from '../constants/Colors';
 import str from '../constants/Strings';
 import { Ionicons } from '@expo/vector-icons';
 import { GiftedChat } from 'react-native-gifted-chat'
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 
 
 

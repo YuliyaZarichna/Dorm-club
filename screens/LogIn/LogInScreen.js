@@ -4,10 +4,9 @@ import logo from "../../assets/images/logo2.png";
 import Str from '../../constants/Strings';
 import Color from '../../constants/Colors';
 import * as SecureStore from 'expo-secure-store';
+import getEnvVar from '../../environment';
+const { apiURL } = getEnvVar();
 
-import { useScreens } from 'react-native-screens';
-import getEnvVars from '../../environment';
-const { apiURL } = getEnvVars();
 
 class LoginScreen extends Component {
 
@@ -18,16 +17,13 @@ class LoginScreen extends Component {
       password: '',
       isAuthenticated: false,
       isVerified: false,
-      id: '',
-
     }
   }
 
   login = async () => {
-
+    /* form validation to check if email and password text input is empty */
     if (this.state.email.trim().length === 0 || this.state.password.trim().length === 0) {
-      console.log("if validation");
-      alert("please fill both your username and password")
+      alert("Please fill both your username and password!")
       return false
     }
 
@@ -42,33 +38,25 @@ class LoginScreen extends Component {
           password: this.state.password,
         })
       })
-      const res = await response.json();
-      console.log("login res", res);
+      const resJson = await response.json();
 
-      /*   else if (!res.ok) {
-          alert("User not found")
-        } */
-      if (res.isAuthenticated) {
-        console.log("else validation");
-        console.log("expiresIn", res);
-        //console.log("res.token.expiresIn", res.token.expiresIn);
+      /* if email and password are correct get a token */
+      if (resJson.isAuthenticated) {
 
-        await SecureStore.setItemAsync('secure_token', res.accessToken);
-        await SecureStore.setItemAsync('user_id', JSON.stringify(res.id));
-        //console.log('Success:', JSON.stringify(res));
-        /*    const expirationDate = new Date(new Date().getTime() + 186400  + 1000); 
-           this.saveDataToStorage(res.accessToken, res.id, expirationDate); */
-        if (res.isVerified) {
-          console.log("verified");
+        await SecureStore.setItemAsync('secure_token', resJson.accessToken);
+        await SecureStore.setItemAsync('user_id', JSON.stringify(resJson.id));
+
+        if (resJson.isVerified) {
           this.props.navigation.navigate('Home')
         }
+        /* if user is registered but is not verified, redirect to verification */
         else {
-          console.log("not verified");
           this.props.navigation.navigate('Verification')
         }
       }
+      /* if email or password does not match to users input */
       else {
-        alert('wrong username or password, try again')
+        alert('Wrong username or password, try again!')
       }
     }
     catch (error) {
@@ -76,22 +64,7 @@ class LoginScreen extends Component {
     }
   }
 
-
-  // stire data in storage and use it for auto login auto logout, from video
-  saveDataToStorage = (token, userId, expirationDate) => {
-    SecureStore.setItemAsync(
-      'user_data',
-      JSON.stringify({
-        token: token,
-        userId: userId,
-        expiryDate: expirationDate.toISOString()
-      })
-    )
-  }
-
-
   render() {
-
     return (
       <KeyboardAvoidingView
         behavior='position'
@@ -100,11 +73,8 @@ class LoginScreen extends Component {
       >
         <ScrollView keyboardShouldPersistTaps={'handled'}>
           <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={logo}
-            />
-            <Text style={styles.welcomeText}>Welcome to Aristotelessteig Dorm Club</Text>
+            <Image style={styles.logo} source={logo} />
+            <Text style={styles.welcomeText}>{Str.WELCOME}</Text>
           </View>
           <View>
             <TextInput
@@ -114,7 +84,6 @@ class LoginScreen extends Component {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
-              onSubmitEditing={() => this.passwordInput.focus()} // when enter the email
               style={styles.input}
               value={this.state.email}
               onChangeText={(value) => this.setState({ email: value })}
@@ -125,40 +94,27 @@ class LoginScreen extends Component {
               placeholderTextColor="lightgrey"
               returnKeyType="go"
               secureTextEntry
-              ref={(input) => this.passwordInput = input}
               style={styles.input}
               value={this.state.password}
               onChangeText={(value) => this.setState({ password: value })}
             />
-            <TouchableOpacity style={styles.buttonContainer}
-              /* onPress={() => this.props.navigation.navigate('Home')} */
-              onPress={this.login}
-            >
+            <TouchableOpacity style={styles.buttonContainer} onPress={this.login}>
               <Text style={styles.buttonText}>{Str.LOGIN}</Text>
             </TouchableOpacity>
           </View>
           <View>
-            {/*  <Text
-              onPress={() => { }}
-              style={styles.signupText}>
-              {Str.FORGOT}
-            </Text> */}
             <View style={styles.signupText}>
-              <Text style={{ color: Color.LIGHTGRAY }}>
-                Dont have an account?
-              </Text>
+              <Text style={{ color: Color.LIGHTGRAY }}>{Str.NOACCOUNT}</Text>
               <TouchableOpacity>
                 <Text
                   onPress={() => this.props.navigation.navigate('University')}
-                  style={styles.signup}>
-                  SIGN UP
+                  style={styles.signup}>{Str.SIGNUP}
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-
     );
   }
 }
@@ -173,8 +129,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     paddingTop: 50
-    //flexGrow: 1,
-    //justifyContent: 'center'
   },
 
   logo: {
@@ -234,6 +188,6 @@ const styles = StyleSheet.create({
     color: Color.TROPICALRAINFOREST,
     paddingLeft: 8
   }
-
 })
+
 export default LoginScreen;

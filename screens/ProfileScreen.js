@@ -9,8 +9,8 @@ import { Platform } from 'react-native';
 
 
 import * as SecureStore from 'expo-secure-store';
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 
 class ProfileScreen extends Component {
 

@@ -31,7 +31,7 @@ class NameDetailsScreen extends Component {
                 country: this.props.navigation.getParam('country'),
                 building: this.props.navigation.getParam('building'),
                 university: this.props.navigation.getParam('university'),
-                subject: this.props.navigation.getParam('subject')
+                specialization: this.props.navigation.getParam('specialization')
             }
         })
     }

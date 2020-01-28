@@ -3,8 +3,8 @@ import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-nati
 import Color from '../constants/Colors';
 import Str from '../constants/Strings';
 
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 
 
 class WelcomeScreen extends React.Component {
@@ -76,13 +76,13 @@ const styles = StyleSheet.create({
     },
     helloText: {
         fontSize: 30,
-        color: Color.PASTELRED
+        color: Color.TROPICALRAINFOREST
 
     },
     welcomeText: {
         paddingBottom: 20,
         fontSize: 25,
-        color: Color.PASTELRED
+        color: Color.TROPICALRAINFOREST
     },
     enjoyText: {
         paddingBottom: 20,

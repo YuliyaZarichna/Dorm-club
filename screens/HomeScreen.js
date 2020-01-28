@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, StyleSheet, FlatList, Text, TouchableOpacity, RefreshControl, ActivityIndicator, ColorPropType } from 'react-native';
 import PostCard from '../components/Card';
 import Modal from 'react-native-modal';
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 import * as SecureStore from 'expo-secure-store';
 import Color from '../constants/Colors';
 

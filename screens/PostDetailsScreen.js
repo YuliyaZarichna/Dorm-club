@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView, ActivityIndicator, TextInput, KeyboardAvoidingView } from 'react-native';
-import getEnvVars from '../environment';
+import getEnvVar from '../environment';
 import { HeaderTitle } from 'react-navigation-stack';
-const { apiURL } = getEnvVars();
+const { apiURL } = getEnvVar();
 import Moment from 'react-moment';
 import { Card, Divider, Avatar, Input } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';

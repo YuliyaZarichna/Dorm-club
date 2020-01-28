@@ -5,8 +5,8 @@ import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
 import * as SecureStore from 'expo-secure-store';
 
-import getEnvVars from '../../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../../environment';
+const { apiURL } = getEnvVar();
 
 
 class EmailPasswordScreen extends Component {
@@ -22,7 +22,10 @@ class EmailPasswordScreen extends Component {
             selectedUniversity: this.props.navigation.getParam('university'),
             selectedCountry: this.props.navigation.getParam('country'),
             selectedBulding: this.props.navigation.getParam('building'),
+            selectedSpecialization: this.props.navigation.getParam('specialization'),
         }
+        console.log("selectedCountry", this.state.selectedCountry);
+        console.log("selectedSpecialization", this.state.selectedSpecialization);
 
         /*       const selectedUniversity = this.props.navigation.getParam('university')
               const selectedSubject = this.props.navigation.getParam('subject')
@@ -52,6 +55,7 @@ class EmailPasswordScreen extends Component {
                     University: this.state.selectedUniversity,
                     Country: this.state.selectedCountry,
                     Dorm: this.state.selectedBulding,
+                    //Specialization: this.state.selectedSpecialization
                 }),
             })
             if (response.ok) {
@@ -112,6 +116,7 @@ class EmailPasswordScreen extends Component {
                 firstname: this.props.navigation.getParam('firstname'),
                 lastname: this.props.navigation.getParam('lastname'),
                 username: this.props.navigation.getParam('username'),
+                specialization: this.props.navigation.getParam('specialization'),
             }
         })
     }

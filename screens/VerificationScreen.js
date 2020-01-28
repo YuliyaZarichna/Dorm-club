@@ -50,7 +50,7 @@ class VerificationScreen extends Component {
                         <Text style={styles.buttonText}>Verify by QR Code</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.button} onPress={() => { alert('Feature is coming') }}>
+                    <TouchableOpacity style={styles.button} onPress={() => { alert('Feature is coming soon') }}>
                         <Text style={styles.buttonText}>Verify by Post</Text>
                     </TouchableOpacity>
                 </View>
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     container: {
-        //  marginTop: 20,
         marginBottom: 20,
     },
     header: {

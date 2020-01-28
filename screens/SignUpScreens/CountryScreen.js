@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
 import Color from '../../constants/Colors';
-import str from '../../constants/Strings';
+import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-import HeaderButton from '../../components/HeaderButton'
-import getEnvVars from '../../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../../environment';
+const { apiURL } = getEnvVar();
 import RNPickerSelect from 'react-native-picker-select';
-
-
 
 class CountryScreen extends Component {
     constructor(props) {
@@ -17,12 +13,12 @@ class CountryScreen extends Component {
         this.state = {
             countries: [],
             buildings: [],
-
             selectedCountry: '',
             selectedBulding: '',
         }
     }
 
+    /*Lifecycle method, calls immediately after a screen is loaded */
     componentDidMount() {
         this.getListOfCountries();
         this.getListOfBuildings()
@@ -30,11 +26,13 @@ class CountryScreen extends Component {
 
     getListOfCountries = async () => {
         try {
-            const res = await fetch(`${apiURL}/countries`);
-            const countries = await res.json();
-            this.setState({
-                countries
-            })
+            const response = await fetch(`${apiURL}/countries`);
+            const countries = await response.json();
+            if (response.ok) {
+                this.setState({
+                    countries
+                })
+            } else { alert("Something went wrong, try again!") }
         }
         catch (err) {
             this.setState({ loading: false, err: true })
@@ -43,17 +41,22 @@ class CountryScreen extends Component {
 
     getListOfBuildings = async () => {
         try {
-            const res = await fetch(`${apiURL}/buildings`);
-            const buildings = await res.json();
-            this.setState({
-                buildings
-            })
+            const response = await fetch(`${apiURL}/buildings`);
+            const buildings = await response.json();
+            if (response.ok) {
+                this.setState({
+                    buildings
+                })
+            } else { alert("Something went wrong, try again!") }
         }
         catch (err) {
             this.setState({ loading: false, err: true })
         }
     }
 
+    /** Handle navigation to the next screen. 
+     * Set chosen info (country, building) in nav parameter to be able to bring it to the next screen.
+     * Transition university and specialization to the next screen*/
     handleNavigation = () => {
         this.props.navigation.navigate({
             routeName: 'NameDetails',
@@ -61,17 +64,19 @@ class CountryScreen extends Component {
                 country: this.state.selectedCountry,
                 building: this.state.selectedBulding,
                 university: this.props.navigation.getParam('university'),
-                subject: this.props.navigation.getParam('subject')
+                specialization: this.props.navigation.getParam('specialization')
             }
         })
     }
 
+    /**Save choosen item in selectedCountry */
     handlePickerItemCountry = (country) => {
         if (country !== 0) {
             this.setState({ selectedCountry: country });
         }
     }
 
+    /**Save choosen item in selectedBulding */
     handlePickerItemBuilding = (build) => {
         if (build !== 0) {
             this.setState({ selectedBulding: build });
@@ -90,19 +95,10 @@ class CountryScreen extends Component {
         }));
         return (
             <ScrollView>
-                <KeyboardAvoidingView
-                    style={styles.container}
-                    behavior='position'
-                >
+                <KeyboardAvoidingView style={styles.container} behavior='position'>
                     <View>
-                        <Text style={styles.title}>Few more steps to settle down</Text>
-                        <Image
-                            style={styles.logo}
-                            source={logo}
-                        />
-
-                        <Text style={styles.text}>Choose your country from the list</Text>
-
+                        <Image style={styles.logo} source={logo} />
+                        <Text style={styles.text}>{Str.CHOOSECOUNTRY}</Text>
                         <View style={styles.input}>
                             <RNPickerSelect
                                 onValueChange={this.handlePickerItemCountry}
@@ -112,8 +108,8 @@ class CountryScreen extends Component {
                                 value={this.state.selectedCountry}
                             />
                         </View>
-                        <Text style={styles.text}>Choose the buiding where you live</Text>
 
+                        <Text style={styles.text}>{Str.CHOOSEBUILD}</Text>
                         <View style={styles.input}>
                             <RNPickerSelect
                                 onValueChange={this.handlePickerItemBuilding}
@@ -123,17 +119,23 @@ class CountryScreen extends Component {
                                 value={this.state.selectedBulding}
                             />
                         </View>
+
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
-                                <Text style={styles.buttonText}>Next</Text>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={this.handleNavigation}
+                                disabled={!this.state.selectedCountry || !this.state.selectedBulding}>
+                                <Text style={styles.buttonText}>{Str.NEXT}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </KeyboardAvoidingView>
             </ScrollView>
-        );
+        )
     }
 }
+
+/**Removes header */
 CountryScreen.navigationOptions = {
     headerStyle: {
         elevation: 0,
@@ -195,6 +197,9 @@ const styles = StyleSheet.create({
     },
 })
 
+/**
+ * https://github.com/lawnstarter/react-native-picker-select/blob/master/demo/App.js
+ * Styling picker for iOS and Android*/
 const pickerSelectStyles = StyleSheet.create({
     inputIOS: {
         fontSize: 16,
@@ -212,6 +217,3 @@ const pickerSelectStyles = StyleSheet.create({
 
 
 export default CountryScreen;
-
-// for changing picker color
-// https://github.com/lawnstarter/react-native-picker-select/blob/master/demo/App.js

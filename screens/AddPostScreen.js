@@ -6,11 +6,10 @@ import * as SecureStore from 'expo-secure-store';
 import { Keyboard } from 'react-native'
 
 
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 
 class AddPostScreen extends Component {
-    //_isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -21,15 +20,10 @@ class AddPostScreen extends Component {
         };
     }
 
-    /*   UNSAFE_componentWillMount() {
-          this._isMounted = false;
-      } */
-
     createPost = async () => {
         Keyboard.dismiss()
         try {
             const userId = await SecureStore.getItemAsync('user_id')
-            //this._isMounted = true;
             this.setState({
                 isLoading: true,
             });
@@ -70,20 +64,11 @@ class AddPostScreen extends Component {
         }
     }
 
-    /*  componentDidMount() {
-         this.createPost();
-     } */
 
     componentWillUnmount() {
         //this.props.navigation.state.params.getAllPosts();
         //this.props.navigation.state.params.addNewPostToArray(this.state.newPost);
     }
-
-    /*  submitCreatePost = async () => {
-         console.log("combinedFunctionOnSubmit");
-         const userId = await SecureStore.getItemAsync('user_id')
-         this.createPost();
-     } */
 
 
     render() {

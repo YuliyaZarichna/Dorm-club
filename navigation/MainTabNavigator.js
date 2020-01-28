@@ -22,7 +22,6 @@ import CountryScreen from '../screens/SignUpScreens/CountryScreen';
 import NameDetailsScreen from '../screens/SignUpScreens/NameDetailsScreen';
 import VerificationScreen from '../screens/VerificationScreen'
 import EmailPasswordScreen from '../screens/SignUpScreens/EmailPasswordScreen';
-import StartupScreen from '../screens/StartupScreen'
 import VerificationByQRCode from '../components/VerificationByQRCode'
 import NeighborDetailsScreen from '../screens/NeighborDetailsScreen'
 import MessageDetailsScreen from '../screens/MessageDetailsScreen'
@@ -37,7 +36,6 @@ import Color from '../constants/Colors';
 import NeightborScreen from '../screens/NeighborScreen';
 
 
-
 const HomeStack = createStackNavigator({
     Home: {
         screen: HomeScreen,
@@ -45,7 +43,6 @@ const HomeStack = createStackNavigator({
             header: null
         }
     },
-
     AddPost: {
         screen: AddPostScreen,
         navigationOptions: ({ }) => ({
@@ -108,22 +105,6 @@ const AuthStack = createStackNavigator({
             header: null,
         }
     },
-    /*    Register: {
-           screen: RegisterScreen,
-           navigationOptions: ({ navigation }) => ({
-              // headerTitle: 'Registration',
-               headerRight: () =>
-                   <TouchableOpacity>
-                       <Ionicons name='md-done-all'
-                           style={{ marginRight: 20, color: Color.tabIconDefault }}
-                           size={26}
-                           onPress={() =>
-                               navigation.navigate('Welcome')
-                           }
-                       />
-                   </TouchableOpacity>
-           })
-       }, */
     University: {
         screen: UniversityScreen,
     },
@@ -219,23 +200,16 @@ const TabNavigator = createBottomTabNavigator({
             ),
         }
     },
-}, {
-    /*    tabBarOptions: {
-           headerTintColor: Color.TEAL,
-           headerStyle: {
-               backgroundColor: '#000',
-           },
-       } */
 }
 );
 
 const RootSwitch = createSwitchNavigator({
     //Startup: { screen: StartupScreen },
-    Auth: { screen: AuthStack },
+    Auth: AuthStack,
     AppProfile: ProfileStack,
     AppNeighbor: NeighborStack,
     AppMessage: MessageStack,
-    RootSwitch: { screen: TabNavigator },
+    RootSwitch: TabNavigator,
 
 })
 

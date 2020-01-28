@@ -3,8 +3,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator, Button, ColorPropType } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as SecureStore from 'expo-secure-store';
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 
 import Color from '../constants/Colors';
 

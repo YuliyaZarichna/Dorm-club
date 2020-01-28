@@ -4,8 +4,8 @@ import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator, Button } f
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
 import * as SecureStore from 'expo-secure-store';
-import getEnvVars from '../environment';
-const { apiURL } = getEnvVars();
+import getEnvVar from '../environment';
+const { apiURL } = getEnvVar();
 import Color from '../constants/Colors';
 import Str from '../constants/Strings';
 
