@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 
 import Colors from '../constants/Colors';
 
+/** component to button in header */
 export default function CustomHeaderButton(props) {
     return (
         <HeaderButton
@@ -15,6 +16,3 @@ export default function CustomHeaderButton(props) {
         />
     );
 };
-
-
-// from the video

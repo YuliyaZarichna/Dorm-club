@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location'
 import * as Permissions from 'expo-permissions'
 import * as SecureStore from 'expo-secure-store';
@@ -10,7 +9,7 @@ import Color from '../constants/Colors';
 import Str from '../constants/Strings';
 
 
-class VerificationByLocation extends React.Component {
+class VerificationByLocation extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,6 +18,9 @@ class VerificationByLocation extends React.Component {
         };
     }
 
+    /** https://docs.expo.io/versions/v36.0.0/sdk/permissions/
+    * ask user permission to access device location
+    */
     verifyPermission = async () => {
         const result = await Permissions.askAsync(Permissions.LOCATION);
         if (result.status !== 'granted') {
@@ -32,6 +34,9 @@ class VerificationByLocation extends React.Component {
         return true;
     }
 
+    /** https://docs.expo.io/versions/v36.0.0/sdk/location/
+    * read users geolocation 
+    */
     getUserLocation = async () => {
         const hasPermission = await this.verifyPermission();
         if (!hasPermission) {
@@ -61,6 +66,7 @@ class VerificationByLocation extends React.Component {
         })
     }
 
+    /** send users geolocation to back-end and do verification */
     verifyUserByLocation = async () => {
         const userId = await SecureStore.getItemAsync('user_id')
         const response = await fetch(`${apiURL}/auth/verifybylocation`, {
@@ -75,12 +81,12 @@ class VerificationByLocation extends React.Component {
                 lng: this.state.userLocation.lng,
             }),
         });
-        const res = await response.json();
-        console.log("res verifyByLocation", res);
-        if (res.isVerified) {
+        const resJson = await response.json();
+        if (resJson.isVerified) {
             this.setState({
                 isLoading: true
             })
+            /**send users data to welcome page to display it */
             this.props.navigation.navigate({
                 routeName: 'Welcome',
                 params: {
@@ -95,33 +101,23 @@ class VerificationByLocation extends React.Component {
             })
         }
         else {
-            alert("Seems like you are not in Aristo")
+            alert("Seems like you are not in Aristo!")
         }
     }
 
     render() {
-        console.log("userlocation", this.state.userLocation);
-        /*      if (this.state.isLoading) {
-                 return (
-                     <View style={styles.centered} >
-                         <ActivityIndicator animating={true} size="large" />
-                         <Text>Loading</Text>
-                     </View>
-                 )
-             } */
+        if (this.state.isLoading) {
+            return (
+                <View style={styles.centered} >
+                    <ActivityIndicator animating={true} size="large" />
+                </View>
+            )
+        }
         return (
             <View>
-
-                <View style={styles.location}>
-                    {/* {this.state.isLoading ? (
-                        <ActivityIndicator size='large' color='green' />
-                    ) : (<Text>No location chosen yet</Text>
-                        )} */}
-                </View>
                 <TouchableOpacity style={styles.button} onPress={this.getUserLocation}>
-                    <Text style={styles.buttonText}>Verify by location</Text>
+                    <Text style={styles.buttonText}>{Str.VERIFYLOCATION}</Text>
                 </TouchableOpacity>
-                {/* <Button title="Verify by location" color='green' onPress={this.getUserLocation} /> */}
             </View>
         );
     }
@@ -129,14 +125,11 @@ class VerificationByLocation extends React.Component {
 
 
 const styles = StyleSheet.create({
-    location: {
-        //flex: 1,
-        //marginBottom: 10
-    },
     centered: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 40
     },
     button: {
         width: "90%",
@@ -156,4 +149,3 @@ const styles = StyleSheet.create({
 });
 
 export default VerificationByLocation;
-

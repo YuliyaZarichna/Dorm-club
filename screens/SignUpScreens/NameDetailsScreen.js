@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
 import Color from '../../constants/Colors';
-import str from '../../constants/Strings';
+import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
 
 
@@ -13,14 +13,11 @@ class NameDetailsScreen extends Component {
             lastname: '',
             username: ''
         }
-        const university = this.props.navigation.getParam('university')
-        //console.log("Namedetails", university);
-        const subject = this.props.navigation.getParam('subject')
-        //console.log(university);
-        //console.log("Namedetails", subject);
-
     }
 
+    /** Handle navigation to the next screen. 
+     * Set entered info (firstname, lastname, username) in nav parameter to be able to bring it to the next screen.
+     * Transition university, specialization, country, building to the next screen*/
     handleNavigation = () => {
         this.props.navigation.navigate({
             routeName: 'EmailPassword',
@@ -36,76 +33,71 @@ class NameDetailsScreen extends Component {
         })
     }
 
-
     render() {
 
         return (
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
-                <KeyboardAvoidingView
-                    style={styles.container}
-                    behavior='position'
-                    keyboardVerticalOffset={100}
-                    key
-                >
-                    <View>
-                        {/* <Text style={styles.title}>Welcome to Arisstoteles Student Dormitory</Text> */}
-                        <Image
-                            style={styles.logo}
-                            source={logo}
-                        />
-
-                        <Text style={styles.text}>Enter Firstname</Text>
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ paddingBottom: 0 }}
-                                onChangeText={(name) => (this.setState({ firstname: name }))}
-                                value={this.state.firstname}
-                                underlineColorAndroid='transparent'
-                                placeholder="firstname"
-                                spellCheck={false}
-                                autoCorrect={false}
-                            >
-                            </TextInput>
-                        </View>
-                        <Text style={styles.text}>Enter Lastname</Text>
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ paddingBottom: 0 }}
-                                onChangeText={(name) => (this.setState({ lastname: name }))}
-                                value={this.state.lastname}
-                                underlineColorAndroid='transparent'
-                                placeholder="lastname"
-                                spellCheck={false}
-                                autoCorrect={false}
-                            >
-                            </TextInput>
-                        </View>
-                        <Text style={styles.text}>Enter your username, will be visible to other users</Text>
-
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ paddingBottom: 0 }}
-                                onChangeText={(name) => (this.setState({ username: name }))}
-                                value={this.state.username}
-                                underlineColorAndroid='transparent'
-                                placeholder="username"
-                                spellCheck={false}
-                                autoCorrect={false}
-                            >
-                            </TextInput>
-                        </View>
-
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
-                                <Text style={styles.buttonText}>Next</Text>
-                            </TouchableOpacity>
-                        </View>
+            /*  <ScrollView> */
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior='position'
+                keyboardVerticalOffset={75}
+            >
+                <View>
+                    <Image style={styles.logo} source={logo} />
+                    <Text style={styles.text}>{Str.ENTERFIRSTNAME}</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ paddingBottom: 0 }}
+                            onChangeText={(name) => (this.setState({ firstname: name }))}
+                            value={this.state.firstname}
+                            underlineColorAndroid='transparent'
+                            placeholder="firstname"
+                            spellCheck={false}
+                            autoCorrect={false}
+                        >
+                        </TextInput>
                     </View>
-                </KeyboardAvoidingView>
-            </ScrollView>
+                    <Text style={styles.text}>{Str.ENTERSLASTNAME}</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ paddingBottom: 0 }}
+                            onChangeText={(name) => (this.setState({ lastname: name }))}
+                            value={this.state.lastname}
+                            underlineColorAndroid='transparent'
+                            placeholder="lastname"
+                            spellCheck={false}
+                            autoCorrect={false}
+                        >
+                        </TextInput>
+                    </View>
+                    <Text style={styles.text}>{Str.ENTERUSERNAME}</Text>
+
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ paddingBottom: 0 }}
+                            onChangeText={(name) => (this.setState({ username: name }))}
+                            value={this.state.username}
+                            underlineColorAndroid='transparent'
+                            placeholder="username"
+                            spellCheck={false}
+                            autoCorrect={false}
+                        >
+                        </TextInput>
+                    </View>
+
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
+                            <Text style={styles.buttonText}>{Str.NEXT}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </KeyboardAvoidingView>
+            /* </ScrollView> */
         );
     }
 }
+
+/**Remove header */
 NameDetailsScreen.navigationOptions = {
     headerStyle: {
         elevation: 0,
@@ -114,7 +106,6 @@ NameDetailsScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         paddingTop: 10,
     },
     title: {
@@ -157,10 +148,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: Color.LIGHTGRAY,
         textDecorationLine: 'none'
-    },
-
-    buttonContainer: {
-        paddingTop: 20
     },
 
     button: {

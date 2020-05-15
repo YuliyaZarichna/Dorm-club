@@ -1,35 +1,35 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import Color from '../constants/Colors';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton'
 import { Card } from 'react-native-elements'
 import { Platform } from 'react-native';
-
-
-
 import * as SecureStore from 'expo-secure-store';
 import getEnvVar from '../environment';
 const { apiURL } = getEnvVar();
 
-class ProfileScreen extends Component {
 
+class ProfileScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
             firstname: '',
             lastname: '',
             username: '',
-            email: '',
         }
     }
 
+    /** get user data on page */
+    componentDidMount() {
+        this.getUser()
+    }
+
+    /**Fetch users data */
     getUser = async () => {
         try {
             var token = await SecureStore.getItemAsync('secure_token');
             var id = await SecureStore.getItemAsync('user_id');
-            // console.log("user token", token);
             const response = await fetch(`${apiURL}/auth/user/` + id, {
                 method: 'GET',
                 headers: {
@@ -37,23 +37,16 @@ class ProfileScreen extends Component {
                     'Content-Type': 'application/json',
                 },
             });
-            const res = await response.json();
-            console.log("res", res);
+            const resJson = await response.json();
             this.setState({
-                username: res.username,
-                firstname: res.firstname,
-                lastname: res.lastname,
+                username: resJson.username,
+                firstname: resJson.firstname,
+                lastname: resJson.lastname,
             })
-
-            console.log("res[0]", res[0]);
-
         }
         catch (error) {
             console.error(error);
         }
-    }
-    componentDidMount() {
-        this.getUser()
     }
 
 
@@ -62,15 +55,11 @@ class ProfileScreen extends Component {
             <View style={styles.container}>
                 <Card>
                     <View style={styles.user}>
-                        <Image
-                            style={styles.image}
-                            resizeMode="cover"
-                        />
+                        <Image style={styles.image} resizeMode="cover" />
                         <Text style={styles.country}>Username: {this.state.username} </Text>
                         <Text style={styles.country}>Firstname: {this.state.firstname} </Text>
                         <Text style={styles.country}>Lastname: {this.state.lastname} </Text>
                     </View>
-
                 </Card>
             </View>
         );
@@ -84,7 +73,9 @@ ProfileScreen.navigationOptions = navData => {
             backgroundColor: Platform.OS === 'android' ? Color.TEAL : ''
         },
         headerTintColor: Platform.OS === 'android' ? Color.WHITE : Color.TEAL,
-        // video
+        /**https://www.udemy.com/course/react-native-the-practical-guide/learn/lecture/15674826#overview 
+         * extra package to handle a button in a header
+        */
         headerRight: (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
@@ -102,7 +93,6 @@ ProfileScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //backgroundColor: Color.VIOLET,
     },
     contentContainer: {
         paddingTop: 30,

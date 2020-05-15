@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
 import Color from '../../constants/Colors';
 import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
@@ -14,7 +14,7 @@ class CountryScreen extends Component {
             countries: [],
             buildings: [],
             selectedCountry: '',
-            selectedBulding: '',
+            selectedBulding: ''
         }
     }
 
@@ -135,7 +135,7 @@ class CountryScreen extends Component {
     }
 }
 
-/**Removes header */
+/**Remove header */
 CountryScreen.navigationOptions = {
     headerStyle: {
         elevation: 0,

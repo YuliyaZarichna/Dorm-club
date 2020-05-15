@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import { View, TouchableOpacity, Text, StyleSheet, ColorPropType } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 import Color from '../constants/Colors';
 
-class Accordion extends React.Component {
+class Accordion extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,9 @@ class Accordion extends React.Component {
             expanded: !this.state.expanded
         })
     }
-
+    /**https://medium.com/@KPS250/creating-an-accordion-in-react-native-f313748b7b46 
+     * handle accordion component
+    */
     render() {
         return (
             <View style={styles.container}>
@@ -42,9 +44,7 @@ class Accordion extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        //flex:1,
         flexDirection: 'column',
-        // marginTop:100,
     },
 
     title: {
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 18,
         alignItems: 'center',
-        // backgroundColor: сolor.VIOLET,
     },
     icon: {
         justifyContent: 'flex-end',
@@ -79,5 +78,3 @@ const styles = StyleSheet.create({
 });
 
 export default Accordion;
-
-// https://medium.com/@KPS250/creating-an-accordion-in-react-native-f313748b7b46

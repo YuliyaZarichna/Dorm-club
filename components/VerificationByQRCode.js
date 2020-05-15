@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { View, TouchableOpacity, Text, StyleSheet, ActivityIndicator, Button, ColorPropType } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as SecureStore from 'expo-secure-store';
 import getEnvVar from '../environment';
 const { apiURL } = getEnvVar();
-
 import Color from '../constants/Colors';
 
 class VerificationByQRCode extends Component {
@@ -23,11 +21,11 @@ class VerificationByQRCode extends Component {
         this.cameraAccess()
     }
 
+    /** https://docs.expo.io/versions/latest/sdk/bar-code-scanner/ 
+    * ask user permission to access device camera
+    */
     cameraAccess = async () => {
         const result = await BarCodeScanner.requestPermissionsAsync();
-        /* this.setState({
-            hasPermission: result.status === 'granted'
-        }) */
         if (result.status !== 'granted') {
             alert(
                 'Insufficient permission',
@@ -44,20 +42,19 @@ class VerificationByQRCode extends Component {
         this.setState({
             scanned: true,
             qrValue: data,
-            isLoading: true
+            /*  isLoading: true */
         })
-        //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
         this.verifyUserByQRCode()
-        /* if (this.state.hasPermission === null) {
+        if (this.state.hasPermission === null) {
             return <Text>Requesting for camera permission</Text>;
         }
         if (this.state.hasPermission === false) {
             return <Text>No access to camera</Text>;
-        } */
+        }
     };
 
+    /** send scanned QR code to back-end and do verification */
     verifyUserByQRCode = async () => {
-        console.log('Verification')
         const userId = await SecureStore.getItemAsync('user_id')
         const response = await fetch(`${apiURL}/auth/verifybyqrcode`, {
             method: 'POST',
@@ -70,12 +67,12 @@ class VerificationByQRCode extends Component {
                 qrValue: this.state.qrValue
             }),
         });
-        const res = await response.json();
-        this.setState({
-            isLoading: false
-        })
-        console.log("res", res);
-        if (res.isVerified) {
+        const resJson = await response.json();
+        if (resJson.isVerified) {
+            this.setState({
+                isLoading: false
+            })
+            /**send users data to welcome page to display it */
             this.props.navigation.navigate({
                 routeName: 'Welcome',
                 params: {
@@ -95,7 +92,6 @@ class VerificationByQRCode extends Component {
     }
 
     render() {
-        console.log("qrcode");
         if (this.state.isLoading) {
             return (
                 <View style={styles.centered} >
@@ -113,7 +109,6 @@ class VerificationByQRCode extends Component {
                 {this.state.scanned && (
                     <Button style={styles.button} title={'Tap to Scan Again'} onPress={() => this.setState({ scanned: false })} />
                 )}
-                {/* <Button title="Verify by QR Code" color='green' onPress={this.cameraAccess} /> */}
             </View>
         );
     }
@@ -138,5 +133,3 @@ const styles = StyleSheet.create({
 });
 
 export default VerificationByQRCode;
-
-//https://docs.expo.io/versions/latest/sdk/bar-code-scanner/

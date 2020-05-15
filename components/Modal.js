@@ -1,18 +1,15 @@
 
 import React, { Component } from 'react';
-import { Text, TouchableOpacity, View, Alert, StyleSheet, Platform, Button } from 'react-native';
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 
+/** component to manage modal window */
 class ModalWindow extends Component {
     constructor(props) {
-
         super(props);
-
-        console.log("Modal");
         this.state = {
             visibleModal: false,
         };
-
     }
 
     _openModal = (text, onPress) => (
@@ -33,7 +30,6 @@ class ModalWindow extends Component {
         return (
             <View style={styles.container}>
                 {this._openModal('Default modal', () => this.setState({ visibleModal: true }))}
-
                 <Modal isVisible={this.state.visibleModal === true}>
                     {this._renderModalContent()}
                 </Modal>
@@ -64,6 +60,6 @@ const styles = StyleSheet.create({
 });
 export default ModalWindow;
 
-// npm i react-native-modal
+
 // https://snack.expo.io/@kulack/react-native-modal-example
 //https://github.com/react-native-community/react-native-modal

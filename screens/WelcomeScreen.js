@@ -3,33 +3,8 @@ import { View, StyleSheet, Text, ScrollView, TouchableOpacity } from 'react-nati
 import Color from '../constants/Colors';
 import Str from '../constants/Strings';
 
-import getEnvVar from '../environment';
-const { apiURL } = getEnvVar();
-
 
 class WelcomeScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-
-        }
-        const selectedUniversity = this.props.navigation.getParam('university')
-        const selectedSubject = this.props.navigation.getParam('subject')
-        const selectedCountry = this.props.navigation.getParam('country')
-        const selectedBulding = this.props.navigation.getParam('building')
-        const firstname = this.props.navigation.getParam('firstname')
-        const lastname = this.props.navigation.getParam('lastname')
-        const username = this.props.navigation.getParam('username')
-        console.log("university", selectedUniversity);
-        console.log("subject", selectedSubject);
-        console.log("country", selectedCountry);
-        console.log("building", selectedBulding);
-        console.log("firstname", firstname);
-        console.log("lastname", lastname);
-        console.log("username", username);
-    }
-
-
     render() {
         const username = this.props.navigation.getParam('username')
         return (
@@ -40,25 +15,17 @@ class WelcomeScreen extends React.Component {
                     <View style={styles.welcomeContainer}>
                         <Text style={styles.helloText}>Hello {username}</Text>
                         <Text style={styles.welcomeText}>Welcome to Aristo DC</Text>
-                        <Text style={styles.enjoyText}>Enjoy your stay in student dormitory</Text>
+                        <Text style={styles.enjoyText}>Enjoy your stay in students dormitory</Text>
                         <Text style={styles.infoAristo}>There are around 800 people living in Aristotelessteig</Text>
-                        {/* <Text style={styles.info}>"amount" students study in "university"</Text>
-                        <Text style={styles.info}>"amount" students study "subject"</Text>
-                        <Text style={styles.info}>"amount" students are from "country"</Text> */}
                         <TouchableOpacity style={styles.button} onPress={() => { this.props.navigation.navigate('Home') }}>
                             <Text style={styles.buttonText}>{Str.DONE}</Text>
                         </TouchableOpacity>
-
                     </View>
                 </ScrollView>
-
             </View>
         );
     }
 }
-/* HomeScreen.navigationOptions = {
-    header: null,
-} */
 
 const styles = StyleSheet.create({
     container: {

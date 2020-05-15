@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Picker, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import getEnvVar from '../environment';
 const { apiURL } = getEnvVar();
 import Color from '../constants/Colors';
-import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import HeaderButton from '../components/HeaderButton'
 import * as SecureStore from 'expo-secure-store';
 import RNPickerSelect from 'react-native-picker-select';
-
 
 
 class NeightborScreen extends Component {
@@ -30,10 +28,11 @@ class NeightborScreen extends Component {
         this.getListOfCountries();
         this.getListOfBuildings();
         this.getListOfUniversities();
-        // send props to navOptions
+        // send props to navOptions in header
         this.props.navigation.setParams({ clearPickerItems: this.clearPickerItems })
     }
 
+    /** fetch countries */
     getListOfCountries = async () => {
         try {
             const res = await fetch(`${apiURL}/countries`);
@@ -46,6 +45,8 @@ class NeightborScreen extends Component {
             this.setState({ loading: false, err: true })
         }
     }
+
+    /** fetch buildings */
     getListOfBuildings = async () => {
         try {
             const res = await fetch(`${apiURL}/buildings`);
@@ -59,6 +60,7 @@ class NeightborScreen extends Component {
         }
     }
 
+    /** fetch universities */
     getListOfUniversities = async () => {
         try {
             const res = await fetch(`${apiURL}/universities`);
@@ -72,6 +74,7 @@ class NeightborScreen extends Component {
         }
     }
 
+    /** save selected item */
     handlePickerItemCountry = (country) => {
         if (country !== 0) {
             this.setState({ selectedCountry: country });
@@ -90,25 +93,21 @@ class NeightborScreen extends Component {
         }
     }
 
-
-
+    /** search for user by university, country, or building */
     searchUsers = async () => {
         const country = this.state.selectedCountry
         const university = this.state.selectedUniversity
         const building = this.state.selectedBulding
-
         const userId = await SecureStore.getItemAsync('user_id')
-        console.log("userId", userId);
 
         try {
             this.setState({
                 isLoading: true,
             });
-
+            /** send in parameter id of selected item */
             const response = await fetch(`${apiURL}/auth/searchusers?userId=${userId}&countryId=${country}&universityId=${university}&dormId=${building}`, {
                 method: 'GET',
                 headers: {
-                    //'access-token': token,
                     'Content-Type': 'application/json',
                 },
             });
@@ -116,13 +115,12 @@ class NeightborScreen extends Component {
                 isLoading: false,
             });
 
-            const responseJson = await response.json();
-
+            const resJson = await response.json();
             if (response.ok) {
                 this.setState({
-                    users: responseJson
+                    users: resJson
                 });
-                if (responseJson.length === 0) {
+                if (resJson.length === 0) {
                     alert("User not found")
                 }
             }
@@ -139,6 +137,10 @@ class NeightborScreen extends Component {
             });
         }
     }
+
+    /** navigate to neighbor details page 
+     * send data to the page 
+    */
     navigateToUser = (item) => {
         this.props.navigation.navigate({
             routeName: 'NeighborDetails',
@@ -150,6 +152,8 @@ class NeightborScreen extends Component {
             }
         })
     }
+
+    /** clear selected value from text field */
     clearPickerItems = () => {
         this.setState({
             selectedCountry: '',
@@ -158,8 +162,8 @@ class NeightborScreen extends Component {
         });
     }
 
-
     render() {
+        /** map through the lists */
         const mappedCountry = this.state.countries.map(c => ({
             label: c.name,
             value: c.id
@@ -172,7 +176,6 @@ class NeightborScreen extends Component {
             label: u.name,
             value: u.id
         }));
-
 
         return (
             <View style={styles.container}>
@@ -204,8 +207,8 @@ class NeightborScreen extends Component {
                         style={pickerSelectStyles}
                         value={this.state.selectedUniversity}
                     />
-
                 </View>
+
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.button} onPress={this.searchUsers}>
                         <Text style={styles.buttonText}>Search</Text>
@@ -217,10 +220,12 @@ class NeightborScreen extends Component {
                         <ActivityIndicator animating={true} size="large" />
                     </View>
                     :
-                    /*   <Text>No User found</Text> */
                     <FlatList
                         data={this.state.users}
                         keyExtractor={(item) => (String(item.id))}
+                        contentContainerStyle={{
+                            flexGrow: 1,
+                        }}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => this.navigateToUser(item)}>
                                 <ListItem
@@ -245,12 +250,13 @@ NeightborScreen.navigationOptions = navData => {
             backgroundColor: Platform.OS === 'android' ? Color.TEAL : ''
         },
         headerTintColor: Platform.OS === 'android' ? Color.WHITE : Color.TEAL,
-        // video
+        /**https://www.udemy.com/course/react-native-the-practical-guide/learn/lecture/15674826#overview 
+       * extra package to handle a button in a header
+      */
         headerRight: (
             <HeaderButtons HeaderButtonComponent={HeaderButton}>
                 <Item
                     title='clear'
-                    //iconName={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
                     onPress={() => { navData.navigation.state.params.clearPickerItems() }}
                 />
             </HeaderButtons>

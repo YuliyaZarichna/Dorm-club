@@ -27,6 +27,10 @@ class PostCard extends Component {
     }
 
     render() {
+        /**
+         * to manage time, timeago
+         * https://github.com/headzoo/react-moment
+         */
         const timeAgo = this.props.date
         return (
             <TouchableOpacity onPress={() => this.navigateToPostDetail()}>
@@ -121,10 +125,3 @@ const styles = StyleSheet.create({
 });
 
 export default PostCard;
-
-
-// https://docs.nativebase.io/Components.html#card-list-headref
-
-
-//moment to manage timeago
-//https://github.com/headzoo/react-moment

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
 import Color from '../../constants/Colors';
 import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
@@ -17,25 +17,29 @@ class UniversityScreen extends Component {
             setSpecialization: ''
         }
     }
+
+    /*Lifecycle method, calls immediately after a screen is loaded */
     componentDidMount() {
         this.getListOfUniversities();
     }
 
     getListOfUniversities = async () => {
         try {
-            const res = await fetch(`${apiURL}/universities`);
-            const universities = await res.json();
-            this.setState({
-                universities
-            })
+            const response = await fetch(`${apiURL}/universities`);
+            const universities = await response.json();
+            if (response.ok) {
+                this.setState({
+                    universities
+                })
+            } else { alert("Something went wrong, try again!") }
         }
         catch (error) {
             console.error(error);
         }
     }
     /** Handle navigation to the next screen. 
-        * Set chosen info (country, building) in nav parameter to be able to bring it to the next screen.
-        * Transition university and specialization to the next screen*/
+    * Set chosen info (university, spec) in nav parameter to be able to bring it to the next screen.
+    */
     handleNavigation = () => {
         this.props.navigation.navigate({
             routeName: 'Country',
@@ -60,52 +64,51 @@ class UniversityScreen extends Component {
 
 
         return (
-            <ScrollView keyboardShouldPersistTaps={'handled'}>
-                <KeyboardAvoidingView
-                    style={styles.container}
-                    behavior='position'
-                    keyboardVerticalOffset={100}
-                >
-                    <View>
-                        <Image style={styles.logo} source={logo} />
-                        <Text style={styles.text}>{Str.CHOOSEUNI}</Text>
 
-                        <View style={styles.input}>
-                            <RNPickerSelect
-                                onValueChange={this.handlePickerItem}
-                                items={mappedUniversity}
-                                placeholder={{ label: 'Select university' }}
-                                style={pickerSelectStyles}
-                                value={this.state.selectedUniversity}
-                            />
-                        </View>
-
-                        <Text style={styles.text}>{Str.CHOOSESPEC}</Text>
-
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ paddingBottom: 0 }}
-                                onChangeText={(specialisation) => this.setState({ setSpecialization: specialisation })}
-                                value={this.state.setSpecialization}
-                                underlineColorAndroid='transparent'
-                                placeholder="enter university specialisation "
-                                spellCheck={true}
-                                autoCorrect={false}
-                            >
-                            </TextInput>
-                        </View>
-                        <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
-                                <Text style={styles.buttonText}>Next</Text>
-                            </TouchableOpacity>
-                        </View>
+            <KeyboardAvoidingView
+                style={styles.container}
+                behavior='position'
+                keyboardVerticalOffset={100}
+            >
+                <View>
+                    <Image style={styles.logo} source={logo} />
+                    <Text style={styles.text}>{Str.CHOOSEUNI}</Text>
+                    <View style={styles.input}>
+                        <RNPickerSelect
+                            onValueChange={this.handlePickerItem}
+                            items={mappedUniversity}
+                            placeholder={{ label: 'Select university' }}
+                            style={pickerSelectStyles}
+                            value={this.state.selectedUniversity}
+                        />
                     </View>
-                </KeyboardAvoidingView>
-            </ScrollView>
+
+                    <Text style={styles.text}>{Str.CHOOSESPEC}</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ paddingBottom: 0 }}
+                            onChangeText={(specialisation) => this.setState({ setSpecialization: specialisation })}
+                            value={this.state.setSpecialization}
+                            underlineColorAndroid='transparent'
+                            placeholder="enter university specialisation "
+                            spellCheck={true}
+                            autoCorrect={false}
+                        >
+                        </TextInput>
+                    </View>
+                    <View style={styles.buttonContainer}>
+                        <TouchableOpacity style={styles.button} onPress={this.handleNavigation}>
+                            <Text style={styles.buttonText}>{Str.NEXT}</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </KeyboardAvoidingView>
+
         );
     }
 }
 
+/**Remove header */
 UniversityScreen.navigationOptions = {
     headerStyle: {
         elevation: 0,
@@ -161,10 +164,6 @@ const styles = StyleSheet.create({
         textDecorationLine: 'none'
     },
 
-    buttonContainer: {
-        bottom: 0, //Here is the trick
-    },
-
     button: {
         width: "90%",
         alignSelf: "center",
@@ -198,6 +197,3 @@ const pickerSelectStyles = StyleSheet.create({
 });
 
 export default UniversityScreen;
-
-// not to select the first value in item picker
-// https://stackoverflow.com/questions/42169272/how-to-provide-picker-a-default-please-select-option

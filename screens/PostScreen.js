@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, FlatList, Text, TouchableOpacity, RefreshControl, ActivityIndicator, ColorPropType } from 'react-native';
+import { View, StyleSheet, FlatList, Text, TouchableOpacity, RefreshControl, ActivityIndicator } from 'react-native';
 import PostCard from '../components/Card';
 import Modal from 'react-native-modal';
 import getEnvVar from '../environment';
@@ -8,7 +8,7 @@ import * as SecureStore from 'expo-secure-store';
 import Color from '../constants/Colors';
 
 
-class HomeScreen extends Component {
+class PostScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,12 +17,18 @@ class HomeScreen extends Component {
             isLoading: false,
             isError: false,
             posts: [],
-            currentEditPostcardId: null,
+            postId: null,
         }
     }
 
-    // get all posts from DB 
+    /** call getAllPosts method when on page load */
+    componentDidMount() {
+        this.getAllPosts();
+    }
+
+    /** get all the posts  */
     getAllPosts = async () => {
+        console.log("getAllPosts");
         try {
             var token = await SecureStore.getItemAsync('secure_token');
             this.setState({
@@ -52,35 +58,32 @@ class HomeScreen extends Component {
             this.setState({
                 isError: true
             });
-            // console.error(error);
         }
     }
 
-    //delete by id 
+    /** delete post by id */
     deletePostById = async (id) => {
         try {
             this.isLoading = true,
-
                 await fetch(`${apiURL}/post/` + id, {
                     method: 'DELETE',
                 })
-                    .then(() => {
-                        const index = this.state.posts.findIndex(item => item.id === id);
-                        this.state.posts.splice(index, 1);
-                        this.setState({
-                            posts: this.state.posts
-                        })
-                    });
+            /** check if element is in array, 
+             * splice - remove fisrt matching item from array */
+            const index = this.state.posts.findIndex(item => item.id === id);
+            this.state.posts.splice(index, 1);
+            this.setState({
+                posts: this.state.posts
+            })
         }
         catch (err) {
             this.setState({ loading: false, err: true })
         }
     }
 
-    componentDidMount() {
-        this.getAllPosts();
-    }
-
+    /** refresh the page when Swipe Down  
+    * https://snack.expo.io/@dpesmdr/refreshcontrol-example
+    */
     onRefresh() {
         //Clear old data of the list
         this.setState({ posts: [] });
@@ -88,6 +91,7 @@ class HomeScreen extends Component {
         this.getAllPosts();
     }
 
+    /** open a modal window with the delete function */
     renderModalContent = () => (
         <View>
             <View style={styles.modalContent}>
@@ -98,25 +102,23 @@ class HomeScreen extends Component {
         </View>
     );
 
-    toggleModal = (cardId) => {
+    /** open/close a modal window for post and get its id  */
+    toggleModal = (postId) => {
         this.setState({
             isModalVisible: !this.state.isModalVisible,
-            currentEditPostcardId: cardId
+            postId: postId
         });
-
     };
 
+    /** add a new post to an array, when a user creates a new post, 
+     * data comes from AddPostScreen */
     addNewPostToArray = (newPost) => {
-
-        console.log("addNewPostToArray item", newPost)
-
         this.setState({
-            //isLoading: true,
             posts: [newPost, ...this.state.posts],
         })
-        console.log("addNewPostToArray state", this.state.posts)
     }
 
+    /** on button click go to AddPost page */
     onPress = () => {
         this.props.navigation.navigate({
             routeName: "AddPost",
@@ -125,10 +127,11 @@ class HomeScreen extends Component {
                 addNewPostToArray: this.addNewPostToArray
             }
         });
-        //this.props.navigation.navigate('AddPost', { onNavigateBack: this.getAllPosts})} 
     };
+
+    /** delete post and manage modal */
     handleDeletePostCard = () => {
-        this.deletePostById(this.state.currentEditPostcardId)
+        this.deletePostById(this.state.postId)
         this.toggleModal();
     }
 
@@ -157,6 +160,7 @@ class HomeScreen extends Component {
                 </View>
             )
         }
+
         return (
             <View style={styles.container}>
                 <Modal isVisible={this.state.isModalVisible}
@@ -183,6 +187,7 @@ class HomeScreen extends Component {
                         />
                     )}
 
+                    /** refresh control used for the pull to refresh*/
                     refreshControl={
                         <RefreshControl
                             refreshing={this.state.refreshing}
@@ -200,7 +205,6 @@ class HomeScreen extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
@@ -213,6 +217,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
+    /** Add round button
+        https://stackoverflow.com/questions/49509604/fixed-button-over-a-scrollview 
+    */
     button: {
         backgroundColor: Color.PASTELRED,
         width: 60,
@@ -225,11 +232,13 @@ const styles = StyleSheet.create({
         right: 20,
         flex: 1,
     },
+
     buttonTextStyle: {
         color: 'white',
         fontSize: 45,
         marginBottom: 6
     },
+
     modalContent: {
         backgroundColor: 'white',
         padding: 22,
@@ -240,15 +249,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default HomeScreen;
-
-
-// add round button
-// https://stackoverflow.com/questions/49509604/fixed-button-over-a-scrollview 
-
-//refreshing data
-//https://snack.expo.io/@dpesmdr/refreshcontrol-example
-
-
-// is Mounted
-//https://github.com/material-components/material-components-web-react/issues/434
+export default PostScreen;

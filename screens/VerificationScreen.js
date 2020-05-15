@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, ScrollView, Button, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import VerificationByLocation from '../components/VerificationByLocation'
-import VerificationByQRCode from '../components/VerificationByQRCode'
 import Color from '../constants/Colors';
+import Str from '../constants/Strings';
 
 
 class VerificationScreen extends Component {
@@ -33,7 +33,6 @@ class VerificationScreen extends Component {
             return (
                 <View style={styles.centered} >
                     <ActivityIndicator animating={true} size="large" />
-                    <Text>Loading</Text>
                 </View>
             )
         }
@@ -42,16 +41,15 @@ class VerificationScreen extends Component {
                 <Text style={styles.body2}>Almost done, the last step</Text>
                 <Text style={styles.header}>Please verify your address</Text>
                 <Text style={styles.body}>We would like to be sure, that you are an Aristotelessteig resident</Text>
-                <Text style={styles.body2}>Your data will not be stored, shared or used</Text>
+                <Text style={styles.body2}>Your data will not be shared or used</Text>
                 <View style={styles.bottomContainer}>
                     <VerificationByLocation navigation={this.props.navigation} />
-                    {/*  <Button style={styles.button} title="Verify by QR Code" color='green' onPress={() => this.props.navigation.navigate('VerificationQR')} /> */}
                     <TouchableOpacity style={styles.button} onPress={() => this.navigateToVerificationByQR()}>
-                        <Text style={styles.buttonText}>Verify by QR Code</Text>
+                        <Text style={styles.buttonText}>{Str.VERIFYQR}</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.button} onPress={() => { alert('Feature is coming soon') }}>
-                        <Text style={styles.buttonText}>Verify by Post</Text>
+                        <Text style={styles.buttonText}>{Str.VERIFYPOST}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

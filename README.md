@@ -1,6 +1,8 @@
+These are the steps to run the application:
+
 To run the apllication Node.js, MySQL are required
 
-To run the application on the physical device, the Expo CLI has to be downloaded from the Play/App store and installed. To run application in android emulator Android Studio is required, on iPhone, Mac is required.
+To run the application on the physical device, the Expo CLI has to be downloaded from the Play/App store and installed. To run an application in an android emulator, Android Studio is required. for iPhone, Mac is required. 
 
 In Back-end: 
 1. Run MySQL

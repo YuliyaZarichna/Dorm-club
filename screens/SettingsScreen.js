@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Color from '../constants/Colors';
-import str from '../constants/Strings';
+import Str from '../constants/Strings';
 
 
 class SettingsScreen extends React.Component {
@@ -23,7 +23,7 @@ class SettingsScreen extends React.Component {
 
                     <TouchableOpacity style={styles.logoutContainer} onPress={() => this.props.navigation.navigate('Login')}>
                         <Ionicons style={styles.logoutIcon} name='md-log-out' size={26} />
-                        <Text style={styles.logoutText}>{str.LOGOUT}</Text>
+                        <Text style={styles.logoutText}>{Str.LOGOUT}</Text>
                     </TouchableOpacity>
                 </ScrollView>
             </View>
@@ -31,7 +31,9 @@ class SettingsScreen extends React.Component {
     }
 }
 
-//from video
+/**https://facebook.github.io/react-native/docs/platform-specific-code
+ * Platform specific code, depends on the platform the header style will be different
+ */
 SettingsScreen.navigationOptions = () => {
     return {
         headerStyle: {
@@ -67,7 +69,6 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginLeft: 20,
         color: Color.ATTENTION,
-        // bottom: 30
     },
     logoutText: {
         color: Color.ATTENTION,

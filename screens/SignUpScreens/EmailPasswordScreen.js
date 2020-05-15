@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, Picker, ScrollView, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TextInput, KeyboardAvoidingView, TouchableOpacity, ScrollView } from 'react-native';
 import Color from '../../constants/Colors';
 import Str from '../../constants/Strings';
 import logo from "../../assets/images/logo2.png";
 import * as SecureStore from 'expo-secure-store';
-
 import getEnvVar from '../../environment';
 const { apiURL } = getEnvVar();
 
@@ -15,7 +14,6 @@ class EmailPasswordScreen extends Component {
         this.state = {
             email: '',
             password: '',
-            //password_confirmation: '',
             firstname: this.props.navigation.getParam('firstname'),
             lastname: this.props.navigation.getParam('lastname'),
             username: this.props.navigation.getParam('username'),
@@ -24,20 +22,10 @@ class EmailPasswordScreen extends Component {
             selectedBulding: this.props.navigation.getParam('building'),
             selectedSpecialization: this.props.navigation.getParam('specialization'),
         }
-        console.log("selectedCountry", this.state.selectedCountry);
-        console.log("selectedSpecialization", this.state.selectedSpecialization);
-
-        /*       const selectedUniversity = this.props.navigation.getParam('university')
-              const selectedSubject = this.props.navigation.getParam('subject')
-              const selectedCountry = this.props.navigation.getParam('country')
-              const building = this.props.navigation.getParam('building')
-              const firstname = this.props.navigation.getParam('firstname')
-              const lastname = this.props.navigation.getParam('lastname')
-              const username = this.props.navigation.getParam('username') */
     }
 
+    /**Create a user */
     createUser = async () => {
-        console.log("createUser");
         try {
             const response = await fetch(`${apiURL}/auth/signup`, {
                 method: 'POST',
@@ -58,15 +46,16 @@ class EmailPasswordScreen extends Component {
                     //Specialization: this.state.selectedSpecialization
                 }),
             })
+            /**when a response is successful get token and save it in secure store,
+             * save user id in secure store */
             if (response.ok) {
-                const res = await response.json();
-                console.log("signup seccsses", res);
-                await SecureStore.setItemAsync('secure_token', res.accessToken);
-                await SecureStore.setItemAsync('user_id', JSON.stringify(res.id));
+                const resJson = await response.json();
+                await SecureStore.setItemAsync('secure_token', resJson.accessToken);
+                await SecureStore.setItemAsync('user_id', JSON.stringify(resJson.id));
                 this.handleNavigation()
             }
             else {
-                alert("try again")
+                alert("Seems like a user with email already exists, try again!")
             }
         }
         catch (error) {
@@ -74,26 +63,9 @@ class EmailPasswordScreen extends Component {
         }
     }
 
-    validateEmail = (text) => {
-        console.log("state", this.state.email);
-        //console.log("email", text);
-        const regexp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regexp.test(text)
-        /*       let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-              if (reg.test(text) === false) {
-                  console.log("Email is not correct");
-                  return false;
-              } else { */
-        /*       this.setState({
-                  email: text
-              }) */
-        //}
-
-    }
-
-
+    /**Email validation
+     * https://stackoverflow.com/questions/43676695/email-validation-react-native-returning-the-result-as-invalid-for-all-the-e*/
     handleSubmit = () => {
-        //validate email
         let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (reg.test(this.state.email) === false) {
             alert("Email is not correct");
@@ -101,10 +73,11 @@ class EmailPasswordScreen extends Component {
         }
         else {
             this.createUser();
-
         }
     }
 
+    /** Handle navigation to the next screen. 
+     * Transition all data to the next screen*/
     handleNavigation = () => {
         this.props.navigation.navigate({
             routeName: 'Verification',
@@ -121,8 +94,6 @@ class EmailPasswordScreen extends Component {
         })
     }
 
-
-
     render() {
         return (
             <ScrollView keyboardShouldPersistTaps={'handled'}>
@@ -132,16 +103,9 @@ class EmailPasswordScreen extends Component {
                     keyboardVerticalOffset={100}
                 >
                     <View>
-                        {/* <Text style={styles.title}>Welcome to Aristoteles Student Dormitory</Text> */}
-                        <Image
-                            style={styles.logo}
-                            source={logo}
-                        />
-
-                        <Text style={styles.text}>Enter email address</Text>
-
+                        <Image style={styles.logo} source={logo} />
+                        <Text style={styles.text}>{Str.ENTEREMAIL}</Text>
                         <TextInput
-                            //onChangeText={(text) => this.validateEmail(text)}
                             value={this.state.email}
                             returnKeyType="next"
                             keyboardType="email-address"
@@ -150,13 +114,12 @@ class EmailPasswordScreen extends Component {
                             placeholder={Str.EMAIL}
                             spellCheck={false}
                             autoCorrect={false}
-                            style={styles.textInput}
-                            onSubmitEditing={() => this.passwordInput.focus()} // when enter the email
+                            style={styles.input}
                             onChangeText={(text) => (this.setState({ email: text }))}
-                        //onBlur={ () => this.onBlur() }
                         >
                         </TextInput>
-                        <Text style={styles.text}>Enter password</Text>
+
+                        <Text style={styles.text}>{Str.ENTERPSW}</Text>
                         <TextInput
                             onChangeText={(password) => this.setState({ password })}
                             valoue={this.state.password}
@@ -165,27 +128,15 @@ class EmailPasswordScreen extends Component {
                             secureTextEntry
                             spellCheck={false}
                             autoCorrect={false}
-                            style={styles.textInput}
-                            ref={(input) => this.passwordInput = input}
                             style={styles.input}
                             minLength={1}
                         >
                         </TextInput>
-                        {/*      <Text style={styles.text}>Repeat password</Text>
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ paddingBottom: 0 }}
-                                onChangeText={(password_confirmation) => this.setState({ password_confirmation })}
-                                value={this.state.password_confirmation}
-                                underlineColorAndroid='transparent'
-                                placeholder="Password"
-                                spellCheck={false}
-                                autoCorrect={false}
-                            >
-                            </TextInput>
-                        </View> */}
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={this.handleSubmit}
+                                disabled={!this.state.email || !this.state.password}>
                                 <Text style={styles.buttonText}>{Str.DONE}</Text>
                             </TouchableOpacity>
                         </View>
@@ -195,6 +146,8 @@ class EmailPasswordScreen extends Component {
         );
     }
 }
+
+/**Remove header */
 EmailPasswordScreen.navigationOptions = {
     headerStyle: {
         elevation: 0,
@@ -232,23 +185,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         borderBottomWidth: 1,
         borderBottomColor: Color.LIGHTGRAY,
-    },
-
-    textInput: {
-        height: 30,
-        marginBottom: 20,
-        width: "90%",
-        alignSelf: 'center',
-        borderColor: "rgba(255,255,255,0.7)",
-        color: Color.BLACK,
-        paddingHorizontal: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: Color.LIGHTGRAY,
         textDecorationLine: 'none'
-    },
-
-    buttonContainer: {
-        paddingTop: 20
     },
 
     button: {
@@ -269,6 +206,3 @@ const styles = StyleSheet.create({
 })
 
 export default EmailPasswordScreen;
-
-// regex
-//https://stackoverflow.com/questions/43676695/email-validation-react-native-returning-the-result-as-invalid-for-all-the-e

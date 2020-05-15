@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text, ScrollView, ActivityIndicator, TextInput, KeyboardAvoidingView } from 'react-native';
 import getEnvVar from '../environment';
-import { HeaderTitle } from 'react-navigation-stack';
 const { apiURL } = getEnvVar();
 import Moment from 'react-moment';
-import { Card, Divider, Avatar, Input } from 'react-native-elements'
+import { Card, Divider, Avatar } from 'react-native-elements'
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -12,10 +11,7 @@ import * as SecureStore from 'expo-secure-store';
 import Color from '../constants/Colors';
 
 
-
-
 class PostDetailsScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -30,12 +26,15 @@ class PostDetailsScreen extends Component {
         }
     }
 
+    /** get post data on page */
     componentDidMount() {
+        console.log("getPostDetails");
         this.getPostDetails(this.state.postId);
     }
 
+    /** get post by id*/
     getPostDetails = async (id) => {
-        //console.log("fetPOstDetails");
+
         try {
             this.setState({
                 isLoading: true,
@@ -50,12 +49,11 @@ class PostDetailsScreen extends Component {
             this.setState({
                 isLoading: false
             })
-            const res = await response.json();
-            console.log("get post details res", res);
+            const resJson = await response.json();
             if (response.ok) {
                 this.setState({
-                    postData: res,
-                    postComments: res.Comments
+                    postData: resJson,
+                    postComments: resJson.Comments
                 })
             }
             else {
@@ -66,6 +64,7 @@ class PostDetailsScreen extends Component {
         }
     }
 
+    /** create comment to the post */
     addCommentToPost = async () => {
         try {
             this.setState({
@@ -76,7 +75,6 @@ class PostDetailsScreen extends Component {
             const response = await fetch(`${apiURL}/comment`, {
                 method: 'POST',
                 headers: {
-                    //Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
@@ -88,12 +86,11 @@ class PostDetailsScreen extends Component {
             this.setState({
                 isLoading: false
             })
-            const res = await response.json();
-            console.log("comment res", res);
+            const resJson = await response.json();
             if (response.ok) {
                 this.setState({
-                    postData: res,
-                    postComments: res.Comments
+                    postData: resJson,
+                    postComments: resJson.Comments
                 })
             }
             else {
@@ -107,7 +104,6 @@ class PostDetailsScreen extends Component {
 
     render() {
         const postComments = this.state.postComments
-
         if (this.state.isLoading) {
             return (
                 <View style={styles.centered} >
@@ -147,14 +143,14 @@ class PostDetailsScreen extends Component {
                                     <Avatar size='small' rounded />
                                     <Text style={styles.commentUsername}>{item.User.username}</Text>
                                     <View style={styles.modalButton}>
+                                        {/** add cross icon and add touchable area around it, has not functionality yet*/}
                                         <TouchableOpacity
-                                            //onPress={() => this.props.openModal(this.props.id)}  // in parameter send props about each card to delete 
                                             hitSlop={{ top: 50, bottom: 50, left: 50, right: 50 }}>
                                             <Ionicons name={Platform.OS === 'android' ? 'md-close' : 'ios-close'} size={22} color='grey' />
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-
+                                {/**  moment handles time, make it time ago */}
                                 <Moment style={styles.momentComment} element={Text} fromNow>{item.createdAt}</Moment>
                                 <Text style={styles.commentText}>{item.text}</Text>
                                 <Divider style={styles.divider} />
@@ -187,7 +183,6 @@ class PostDetailsScreen extends Component {
     }
 }
 
-//from video
 PostDetailsScreen.navigationOptions = (navData) => {
     const title = navData.navigation.getParam('postTitle')
     return {
@@ -284,12 +279,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         color: Color.PASTELRED
     }
-
-
 });
 
 
 export default PostDetailsScreen;
-
-
-// object itertion

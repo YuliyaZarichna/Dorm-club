@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { Card } from 'react-native-elements'
 import Color from '../constants/Colors';
-import str from '../constants/Strings';
 
 
 class NeighborDetailsScreen extends React.Component {
@@ -14,10 +13,7 @@ class NeighborDetailsScreen extends React.Component {
 
     contactUser = () => {
         this.props.navigation.navigate({
-            routeName: 'MessageDetails',
-            params: {
-
-            }
+            routeName: 'MessageDetails'
         })
     }
 
@@ -30,7 +26,6 @@ class NeighborDetailsScreen extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.header}>Hey there!</Text>
                 <Card title={username}>
-
                     <View style={styles.user}>
                         <Image
                             style={styles.image}

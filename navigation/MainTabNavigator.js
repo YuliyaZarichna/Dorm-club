@@ -1,21 +1,16 @@
 import React from 'react';
-import { Platform } from 'react-native';
-
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
-import HomeScreen from '../screens/HomeScreen';
-import NeighborScreen from '../screens/NeighborScreen';
+import PostScreen from '../screens/PostScreen';
 import MessageScreen from '../screens/MessageScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import FAQScreen from '../screens/FAQScreen';
 import AddPostScreen from '../screens/AddPostScreen';
 import PostDetailsScreen from '../screens/PostDetailsScreen';
-
-
 import LoginScreen from '../screens/LogIn/LogInScreen';
 import UniversityScreen from '../screens/SignUpScreens/UniversityScreen';
 import CountryScreen from '../screens/SignUpScreens/CountryScreen';
@@ -25,20 +20,14 @@ import EmailPasswordScreen from '../screens/SignUpScreens/EmailPasswordScreen';
 import VerificationByQRCode from '../components/VerificationByQRCode'
 import NeighborDetailsScreen from '../screens/NeighborDetailsScreen'
 import MessageDetailsScreen from '../screens/MessageDetailsScreen'
-
-
-
-import RegisterScreen from '../screens/Registration/RegisterScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import { Ionicons } from '@expo/vector-icons';
-import { TouchableOpacity, Button } from 'react-native';
-import Color from '../constants/Colors';
 import NeightborScreen from '../screens/NeighborScreen';
+import Color from '../constants/Colors';
 
 
 const HomeStack = createStackNavigator({
     Home: {
-        screen: HomeScreen,
+        screen: PostScreen,
         navigationOptions: {
             header: null
         }
@@ -129,7 +118,6 @@ const AuthStack = createStackNavigator({
             headerTitle: 'QR Verification',
         }
     },
-
     Welcome: {
         screen: WelcomeScreen,
         navigationOptions: {
@@ -199,18 +187,16 @@ const TabNavigator = createBottomTabNavigator({
                 />
             ),
         }
-    },
+    }
 }
 );
 
 const RootSwitch = createSwitchNavigator({
-    //Startup: { screen: StartupScreen },
     Auth: AuthStack,
     AppProfile: ProfileStack,
     AppNeighbor: NeighborStack,
     AppMessage: MessageStack,
     RootSwitch: TabNavigator,
-
 })
 
 

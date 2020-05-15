@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, ScrollView, ActivityIndicator, TouchableWithoutFeedback, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, Text, ActivityIndicator, KeyboardAvoidingView, TextInput, TouchableOpacity } from 'react-native';
 import Color from '../constants/Colors';
-import str from '../constants/Strings';
+import Str from '../constants/Strings';
 import * as SecureStore from 'expo-secure-store';
 import { Keyboard } from 'react-native'
-
-
 import getEnvVar from '../environment';
 const { apiURL } = getEnvVar();
 
@@ -20,6 +18,7 @@ class AddPostScreen extends Component {
         };
     }
 
+    /** add new past */
     createPost = async () => {
         Keyboard.dismiss()
         try {
@@ -39,19 +38,18 @@ class AddPostScreen extends Component {
                 }),
             })
 
-            const res = await response.json();
-            console.log("res create Post", res);
+            const resJson = await response.json();
             this.setState({
                 isLoading: false
             })
             if (response.ok) {
-                //sending new created post data to home page
+                //sending new created post data to post page
                 this.props.navigation.state.params.addNewPostToArray({
-                    title: res.title,
-                    text: res.text,
-                    User: res.User,
-                    createdAt: res.createdAt,
-                    id: res.id
+                    title: resJson.title,
+                    text: resJson.text,
+                    User: resJson.User,
+                    createdAt: resJson.createdAt,
+                    id: resJson.id
                 });
                 this.props.navigation.goBack();
             }
@@ -64,13 +62,6 @@ class AddPostScreen extends Component {
         }
     }
 
-
-    componentWillUnmount() {
-        //this.props.navigation.state.params.getAllPosts();
-        //this.props.navigation.state.params.addNewPostToArray(this.state.newPost);
-    }
-
-
     render() {
         if (this.state.isLoading) {
             return (
@@ -81,13 +72,11 @@ class AddPostScreen extends Component {
         }
         return (
             <KeyboardAvoidingView
-                //behavior='position'
                 style={styles.container}
-                keyboardVerticalOffset={10}
-            >
+                keyboardVerticalOffset={10}>
                 <View style={styles.containerView}>
                     <TextInput
-                        placeholder={str.POST_TITLE}
+                        placeholder={Str.POST_TITLE}
                         placeholderTextColor="lightgrey"
                         value={this.state.title}
                         onChangeText={(title) => this.setState({ title })}
@@ -97,7 +86,7 @@ class AddPostScreen extends Component {
                         multiline={true}
                     />
                     <TextInput
-                        placeholder={str.POST_DETAILS}
+                        placeholder={Str.POST_DETAILS}
                         placeholderTextColor="lightgrey"
                         value={this.state.text}
                         onChangeText={(text) => this.setState({ text })}
@@ -112,7 +101,7 @@ class AddPostScreen extends Component {
                         onPress={() => this.createPost()}
                         disabled={!this.state.text || !this.state.title}
                     >
-                        <Text style={styles.buttonText}> Submit </Text>
+                        <Text style={styles.buttonText}>{Str.SUBMIT}</Text>
                     </TouchableOpacity>
                 </View>
             </KeyboardAvoidingView>
@@ -120,7 +109,11 @@ class AddPostScreen extends Component {
         )
     }
 }
-AddPostScreen.navigationOptions = navData => {
+
+/**https://facebook.github.io/react-native/docs/platform-specific-code
+ * Platform specific code, depends on the platform, the header style will be different
+ */
+AddPostScreen.navigationOptions = () => {
     return {
         headerTitle: 'Create Post',
         headerStyle: {
@@ -133,17 +126,18 @@ AddPostScreen.navigationOptions = navData => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        //padding: 20,
     },
+
     containerView: {
-        //flex: 1,
         marginTop: 20
     },
+
     centered: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
+
     input: {
         height: 40,
         marginBottom: 20,
@@ -155,6 +149,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: Color.LIGHTGRAY
     },
+
     button: {
         width: "90%",
         alignSelf: "center",
@@ -163,6 +158,7 @@ const styles = StyleSheet.create({
         borderColor: "rgba(255,255,255,0.7)",
         backgroundColor: Color.TEAL,
     },
+
     buttonText: {
         textAlign: 'center',
         fontWeight: '700',
@@ -171,14 +167,4 @@ const styles = StyleSheet.create({
 
 })
 
-
 export default AddPostScreen;
-
-//https://medium.com/@KPS250/creating-an-accordion-in-react-native-f313748b7b46
-
-// to prevent an error - can't perform a react state update on an unmounted component. this is a no-op
-//https://www.robinwieruch.de/react-warning-cant-call-setstate-on-an-unmounted-component
-
-
-//on navigate back, refresh the page
-//https://stackoverflow.com/questions/50921080/react-native-reload-screen-a-in-back-action

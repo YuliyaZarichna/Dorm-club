@@ -71,49 +71,49 @@ class LoginScreen extends Component {
         style={styles.container}
         keyboardVerticalOffset={10}
       >
-        <ScrollView keyboardShouldPersistTaps={'handled'}>
-          <View style={styles.logoContainer}>
-            <Image style={styles.logo} source={logo} />
-            <Text style={styles.welcomeText}>{Str.WELCOME}</Text>
-          </View>
-          <View>
-            <TextInput
-              placeholder={Str.EMAIL}
-              placeholderTextColor="lightgrey"
-              returnKeyType="next"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              style={styles.input}
-              value={this.state.email}
-              onChangeText={(value) => this.setState({ email: value })}
-            />
+        {/*   <ScrollView keyboardShouldPersistTaps='handled'> */}
+        <View style={styles.logoContainer}>
+          <Image style={styles.logo} source={logo} />
+          <Text style={styles.welcomeText}>{Str.WELCOME}</Text>
+        </View>
+        <View>
+          <TextInput
+            placeholder={Str.EMAIL}
+            placeholderTextColor="lightgrey"
+            returnKeyType="next"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoCorrect={false}
+            style={styles.input}
+            value={this.state.email}
+            onChangeText={(value) => this.setState({ email: value })}
+          />
 
-            <TextInput
-              placeholder={Str.PASSWORD}
-              placeholderTextColor="lightgrey"
-              returnKeyType="go"
-              secureTextEntry
-              style={styles.input}
-              value={this.state.password}
-              onChangeText={(value) => this.setState({ password: value })}
-            />
-            <TouchableOpacity style={styles.buttonContainer} onPress={this.login}>
-              <Text style={styles.buttonText}>{Str.LOGIN}</Text>
+          <TextInput
+            placeholder={Str.PASSWORD}
+            placeholderTextColor="lightgrey"
+            returnKeyType="go"
+            secureTextEntry
+            style={styles.input}
+            value={this.state.password}
+            onChangeText={(value) => this.setState({ password: value })}
+          />
+          <TouchableOpacity style={styles.buttonContainer} onPress={this.login}>
+            <Text style={styles.buttonText}>{Str.LOGIN}</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <View style={styles.signupText}>
+            <Text style={{ color: Color.LIGHTGRAY }}>{Str.NOACCOUNT}</Text>
+            <TouchableOpacity>
+              <Text
+                onPress={() => this.props.navigation.navigate('University')}
+                style={styles.signup}>{Str.SIGNUP}
+              </Text>
             </TouchableOpacity>
           </View>
-          <View>
-            <View style={styles.signupText}>
-              <Text style={{ color: Color.LIGHTGRAY }}>{Str.NOACCOUNT}</Text>
-              <TouchableOpacity>
-                <Text
-                  onPress={() => this.props.navigation.navigate('University')}
-                  style={styles.signup}>{Str.SIGNUP}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
+        </View>
+        {/*   </ScrollView> */}
       </KeyboardAvoidingView>
     );
   }
@@ -121,14 +121,14 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    /*  flex: 1, */
     padding: 20,
   },
 
   logoContainer: {
     alignItems: 'center',
-    flex: 1,
-    paddingTop: 50
+    /*  flex: 1,
+     paddingTop: 50 */
   },
 
   logo: {
